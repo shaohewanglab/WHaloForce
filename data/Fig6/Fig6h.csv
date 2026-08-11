@@ -1,0 +1,86 @@
+worm_id,condition,ovulation_group,tau_Spt_ns
+20250527-L4440_worm1-left-1,control,fewer_than_5_ovulations,1.9412128004564024
+20250527-L4440_worm1-left-3,control,fewer_than_5_ovulations,2.007608342046401
+20250527-L4440_worm10-left-3,control,fewer_than_5_ovulations,2.346990052529712
+20250527-L4440_worm10-right-2,control,fewer_than_5_ovulations,1.8732821125022203
+20250527-L4440_worm2-left-2,control,fewer_than_5_ovulations,2.101141742401049
+20250527-L4440_worm3-left-1,control,fewer_than_5_ovulations,1.9595384963592688
+20250527-L4440_worm3-left-2,control,fewer_than_5_ovulations,2.0796734056173025
+20250527-L4440_worm5-left-2,control,fewer_than_5_ovulations,2.1181267178325163
+20250527-L4440_worm5-left-3,control,fewer_than_5_ovulations,2.080414831010976
+20250527-L4440_worm6-left-2,control,fewer_than_5_ovulations,2.096870212683537
+20250527-L4440_worm6-left-3,control,fewer_than_5_ovulations,2.033336356733607
+20250527-L4440_worm7-left-1,control,fewer_than_5_ovulations,2.102894346220728
+20250527-L4440_worm7-left-3,control,fewer_than_5_ovulations,2.07811796507116
+20250527-L4440_worm7-right-2,control,fewer_than_5_ovulations,2.196993219895873
+20250527-L4440_worm7-right-3,control,fewer_than_5_ovulations,1.9724012361946155
+20250527-L4440_worm8-left-1,control,fewer_than_5_ovulations,2.4900946954205585
+20250527-L4440_worm8-right-3,control,fewer_than_5_ovulations,2.839216481600544
+20250527-L4440_worm9-left-2,control,fewer_than_5_ovulations,1.875922801433671
+20250527-L4440_worm9-right-2,control,fewer_than_5_ovulations,1.885127816192316
+20250610-DDD31-Ad_L4440-1-1emb,control,fewer_than_5_ovulations,1.792362826720734
+20250610-DDD31-Ad_L4440-10-2emb,control,fewer_than_5_ovulations,2.047772938098555
+20250610-DDD31-Ad_L4440-11-2emb,control,fewer_than_5_ovulations,2.07741316730188
+20250610-DDD31-Ad_L4440-13-2emb,control,fewer_than_5_ovulations,2.02172264105082
+20250610-DDD31-Ad_L4440-14-4emb,control,fewer_than_5_ovulations,1.7822730802780298
+20250610-DDD31-Ad_L4440-15-3emb,control,fewer_than_5_ovulations,1.9921991451097536
+20250610-DDD31-Ad_L4440-2-1emb,control,fewer_than_5_ovulations,2.069255743724038
+20250610-DDD31-Ad_L4440-3-1emb,control,fewer_than_5_ovulations,1.986111188396506
+20250610-DDD31-Ad_L4440-5-1emb,control,fewer_than_5_ovulations,2.0380570652750034
+20250610-DDD31-Ad_L4440-6-1emb,control,fewer_than_5_ovulations,1.789971665416666
+20250610-DDD31-Ad_L4440-8-1emb-t,control,fewer_than_5_ovulations,1.819600570312297
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t1,control,fewer_than_5_ovulations,1.4588090530744735
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t20,control,fewer_than_5_ovulations,2.0329270022664687
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t23,control,fewer_than_5_ovulations,1.813320095212864
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t24,control,fewer_than_5_ovulations,2.8521604376887644
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t25,control,fewer_than_5_ovulations,1.98436069777973
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t27,control,fewer_than_5_ovulations,2.1281567719279804
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t37,control,fewer_than_5_ovulations,1.7674108913119546
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t39,control,fewer_than_5_ovulations,1.8401605115287205
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t43,control,fewer_than_5_ovulations,1.8218956400348751
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t49,control,fewer_than_5_ovulations,2.349105833462084
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t65,control,fewer_than_5_ovulations,2.3711015865134093
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t68,control,fewer_than_5_ovulations,1.7318970389189057
+20250610-DDD31-Ad_L4440-8-1emb-t Crop 68ts Crop t9,control,fewer_than_5_ovulations,1.88785343737368
+20250610-DDD31-Ad_L4440-9-2emb,control,fewer_than_5_ovulations,1.7129689590362065
+20250527-AR193-1_worm1-left-2,plc-1_RNAi,fewer_than_5_ovulations,2.205697646995453
+20250527-AR193-1_worm2-left-1,plc-1_RNAi,fewer_than_5_ovulations,2.3015581387792405
+20250527-AR193-1_worm2-right-1,plc-1_RNAi,fewer_than_5_ovulations,2.068617759514661
+20250527-AR193-1_worm3-left-3,plc-1_RNAi,fewer_than_5_ovulations,1.9193320825059423
+20250527-AR193-1_worm3-right-2,plc-1_RNAi,fewer_than_5_ovulations,2.4198979188513308
+20250527-AR193-1_worm5-left-2,plc-1_RNAi,fewer_than_5_ovulations,2.354393476570683
+20250527-AR193-1_worm5-left-3,plc-1_RNAi,fewer_than_5_ovulations,2.4844742688684285
+20250527-AR193-1_worm7-right-3,plc-1_RNAi,fewer_than_5_ovulations,2.2379028705809305
+20250527-AR193-3_worm1-left-1,plc-1_RNAi,fewer_than_5_ovulations,2.669752160985288
+20250527-AR193-3_worm10-left-2,plc-1_RNAi,fewer_than_5_ovulations,2.536621343567558
+20250527-AR193-3_worm12-left-1,plc-1_RNAi,fewer_than_5_ovulations,2.5774617724553064
+20250527-AR193-3_worm12-left-3,plc-1_RNAi,fewer_than_5_ovulations,2.7208787655640805
+20250527-AR193-3_worm2-left-1,plc-1_RNAi,fewer_than_5_ovulations,2.32938463286454
+20250527-AR193-3_worm3-left-1,plc-1_RNAi,fewer_than_5_ovulations,2.33772013757786
+20250527-AR193-3_worm5-right-2,plc-1_RNAi,fewer_than_5_ovulations,2.177999549609184
+20250527-AR193-3_worm6-left-2,plc-1_RNAi,fewer_than_5_ovulations,2.316658007164122
+20250527-AR193-3_worm9-left-1,plc-1_RNAi,fewer_than_5_ovulations,2.440232607160161
+20250610-DDD31-Ad_AR193-2-1emb,plc-1_RNAi,fewer_than_5_ovulations,2.318682311737071
+20250610-DDD31-Ad_AR193-3-1emb,plc-1_RNAi,fewer_than_5_ovulations,2.132053484649992
+20250610-DDD31-Ad_AR193-4-2emb,plc-1_RNAi,fewer_than_5_ovulations,2.218667676196312
+20250610-DDD31-Ad_AR193-5-1emb,plc-1_RNAi,fewer_than_5_ovulations,1.959278669038983
+20250521-DDD1-L4440-1-RNAi_1-1,control,more_than_50_ovulations,2.448417501908367
+20250521-DDD1-L4440-1-RNAi_10-right-2,control,more_than_50_ovulations,2.073441002318833
+20250521-DDD1-L4440-1-RNAi_11-left-2,control,more_than_50_ovulations,2.65398057991489
+20250521-DDD1-L4440-1-RNAi_12-left-1,control,more_than_50_ovulations,2.3938649062969937
+20250521-DDD1-L4440-1-RNAi_2-2,control,more_than_50_ovulations,2.34205023694002
+20250521-DDD1-L4440-1-RNAi_3-left,control,more_than_50_ovulations,2.185919075021205
+20250521-DDD1-L4440-1-RNAi_3-right,control,more_than_50_ovulations,2.7312739980788434
+20250521-DDD1-L4440-1-RNAi_4-right,control,more_than_50_ovulations,2.242219680462131
+20250521-DDD1-L4440-1-RNAi_5-left-1,control,more_than_50_ovulations,2.2042666990015576
+20250521-DDD1-L4440-1-RNAi_5-left-2,control,more_than_50_ovulations,2.3061271522441227
+20250521-DDD1-L4440-1-RNAi_9-left-1,control,more_than_50_ovulations,2.2411696448994265
+20250521-DDD1-L4440-1-RNAi_9-left-2,control,more_than_50_ovulations,2.2789150137504293
+20250521-DDD1-AR193-si-seed3_1-left-1,plc-1_RNAi,more_than_50_ovulations,2.624298282280064
+20250521-DDD1-AR193-si-seed3_3-left-1,plc-1_RNAi,more_than_50_ovulations,2.4696110867007035
+20250521-DDD1-AR193-si-seed3_3-left-2,plc-1_RNAi,more_than_50_ovulations,2.2152785125542542
+20250521-DDD1-AR193-si-seed3_4-left-1,plc-1_RNAi,more_than_50_ovulations,2.414672338744781
+20250521-DDD1-AR193-si-seed3_5-left-2,plc-1_RNAi,more_than_50_ovulations,2.363092771746689
+20250521-DDD1-AR193-si-seed3_6-right-1,plc-1_RNAi,more_than_50_ovulations,2.5224684478640733
+20250521-DDD1-AR193-si-seed3_7-left-2,plc-1_RNAi,more_than_50_ovulations,1.9186529399077976
+20250521-DDD1-AR193-si-seed3_8-left-1,plc-1_RNAi,more_than_50_ovulations,2.273532708983268

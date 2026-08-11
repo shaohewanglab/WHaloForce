@@ -1,0 +1,32 @@
+# Fuller environment, including the upstream analysis steps in src/pipeline/
+# (FLIM decay fitting, Cellpose segmentation) and their example checks. For only
+# regenerating plots from the committed CSVs, requirements.txt is enough.
+#
+# Note: the examples/flim_roi_fit/ check needs nothing beyond requirements.txt
+# (its input is a committed .npz, so no PTU reader). This env is what you need to
+# run the pipeline against the raw-data deposit.
+name: whaloforce
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy=2.3.0
+  - scipy=1.15.2
+  - pandas=2.3.0
+  - matplotlib=3.10.3
+  - openpyxl=3.1.5
+  - seaborn=0.13.2
+  - scikit-image=0.25.2
+  - tifffile=2025.6.11        # reading/writing the image and label-map TIFFs
+  - statsmodels=0.14.4
+  - tqdm                      # progress bars in src/pipeline/flim_pipeline.py
+  - pip
+  - pip:
+      # used only by src/pipeline/, not by plotting
+      - ptufile               # reads the Leica PTU photon files
+      - lmfit                 # fits the IRF time-zero shift
+      # Cellpose-SAM for src/pipeline/cellpose_inference.py. 4.1.1 is the version
+      # the published segmentation used; install the CUDA build separately if a
+      # GPU is available. Not needed to regenerate plots.
+      - cellpose==4.1.1
+      - h5py                  # LUMICKS C-Trap .h5 (optical-tweezers raw data)

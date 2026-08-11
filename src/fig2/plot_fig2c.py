@@ -1,0 +1,109 @@
+"""Figure 2c: per-cell in-FA fluorescence lifetime (intensity-weighted mean,
+pooled-NNLS) for the three untreated vinculin constructs (Vin-WF, Vin-cpH,
+Vin-N-WF), one dot per cell.
+
+Reads data/Fig2/Fig2c.csv and writes figures/Fig2c.svg and .png. Box + jittered
+dots; each construct is compared with Vin-WF by two-sided Mann-Whitney U with
+Holm-Bonferroni adjustment across the two comparisons (adjusted p printed).
+"""
+
+import sys
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+from scipy.stats import mannwhitneyu
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "common"))
+from style import (p_text, TAU, apply_style, save, DATA_DIR, VIN_COLORS,  # noqa: E402
+                   BOX_ALPHA, DOT_ALPHA, DOT_EDGE)
+
+apply_style()
+
+ORDER = ["Vin-WF", "Vin-cpH", "Vin-N-WF"]
+REF = "Vin-WF"
+COLORS = [VIN_COLORS[c] for c in ORDER]
+
+
+def holm(pvals):
+    p = np.asarray(pvals, float)
+    order = np.argsort(p)
+    adj = np.empty(p.size)
+    run = 0.0
+    for i, idx in enumerate(order):
+        run = max(run, (p.size - i) * p[idx])
+        adj[idx] = min(run, 1.0)
+    return adj
+
+
+def vs_ref_stats(groups):
+    ri = ORDER.index(REF)
+    comps, praw = [], []
+    for j in range(len(ORDER)):
+        if j == ri:
+            continue
+        _, p = mannwhitneyu(groups[ri], groups[j], alternative="two-sided")
+        comps.append((ri, j))
+        praw.append(p)
+    padj = holm(praw)
+    return [(i, j, pr, pa) for (i, j), pr, pa in zip(comps, praw, padj)]
+
+
+def main():
+    df = pd.read_csv(DATA_DIR / "Fig2" / "Fig2c.csv")
+    groups = [df.loc[df.construct == c, "tau_inFA_ns"].to_numpy() for c in ORDER]
+    n = [len(g) for g in groups]
+
+    stats = vs_ref_stats(groups)
+    for _, j, praw, padj in stats:
+        print(f"[Fig2c] {ORDER[j]} vs {REF}: MWU p={praw:.3g}, Holm p={padj:.3g}")
+
+    fig, ax = plt.subplots(figsize=(1.8, 1.8))
+    positions = np.arange(1, len(ORDER) + 1)
+    bp = ax.boxplot(groups, positions=positions, widths=0.55, patch_artist=True,
+                    showfliers=False, zorder=2,
+                    medianprops=dict(color="black", linewidth=1.1),
+                    whiskerprops=dict(color="black", linewidth=0.8),
+                    capprops=dict(color="black", linewidth=0.8))
+    for patch, col in zip(bp["boxes"], COLORS):
+        patch.set_facecolor(col); patch.set_alpha(BOX_ALPHA)
+        patch.set_edgecolor(col); patch.set_linewidth(0.8)
+
+    rng = np.random.default_rng(0)
+    for pos, v, col in zip(positions, groups, COLORS):
+        x = pos + (rng.random(len(v)) - 0.5) * 0.25
+        ax.scatter(x, v, s=8, color=col, alpha=DOT_ALPHA, edgecolors=DOT_EDGE,
+                   linewidths=0.3, zorder=3)
+
+    allv = np.concatenate(groups)
+    lo, hi = float(allv.min()), float(allv.max())
+    pad = 0.06 * (hi - lo)
+    # headroom above the highest bracket for the p-value label (which now
+    # sits P_LABEL_PAD points clear of the bar)
+    ax.set_ylim(lo - pad, hi + pad * 7.2)
+    ax.set_xlim(0.4, len(ORDER) + 0.6)
+
+    # brackets vs Vin-WF (narrower span lower); offsets in step units
+    ax_lo, ax_hi = ax.get_ylim()
+    step = 0.11 * (ax_hi - ax_lo)
+    stats_sorted = sorted(stats, key=lambda s: abs(positions[s[1]] - positions[s[0]]))
+    for m, (i, j, praw, padj) in zip([0.5, 2.0], stats_sorted):
+        x1, x2 = positions[i], positions[j]
+        y = hi + step * m
+        yt = y - 0.30 * step
+        ax.plot([x1, x1, x2, x2], [yt, y, y, yt], lw=0.8, color="black",
+                clip_on=False, zorder=5)
+        p_text(ax, (x1 + x2) / 2, y, padj)
+
+    ax.set_xticks(positions)
+    ax.set_xticklabels([f"{c}\n(n={k})" for c, k in zip(ORDER, n)], fontsize=7)
+    ax.set_ylabel(f"Per-cell in-FA {TAU} (ns)")
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.tick_params(axis="x", length=0)
+    fig.tight_layout(pad=0.3)
+    save(fig, "Fig2c")
+
+
+if __name__ == "__main__":
+    main()

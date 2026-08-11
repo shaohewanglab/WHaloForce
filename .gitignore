@@ -1,0 +1,83 @@
+# NOTE: the committed source data is .csv, and the example inputs under
+# examples/ are .npz and .tif. Do NOT add blanket *.csv / *.tif / *.npz rules --
+# they would silently drop the data this package exists to distribute.
+
+# ---- Generated figure panels ---------------------------------------------- #
+# Written by make_all_figures.py / src/<fig>/plot_*.py; the directory is
+# recreated on demand (src/common/style.py). Regenerate with:
+#     python make_all_figures.py
+/figures/
+
+# ---- Output of the upstream pipeline ------------------------------------- #
+# src/pipeline/ writes into whatever --output-dir you give it; these are the
+# names used in src/pipeline/README.md, ignored in case you point them here.
+/outputs/
+/results/
+/cellpose_labels/
+*.log
+irf_vector.npy
+irf_meta.json
+irf_diagnostics.png
+
+# ---- Python --------------------------------------------------------------- #
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+*.egg-info/
+.eggs/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# ---- Editors and tools ---------------------------------------------------- #
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.claude/
+*/.claude/
+
+# ---- macOS ---------------------------------------------------------------- #
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.fseventsd
+Icon?
+
+# ---- Windows -------------------------------------------------------------- #
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# ---- Linux ---------------------------------------------------------------- #
+.directory
+.Trash-*
+.nfs*
+
+# ---- Dropbox / SMB share turds -------------------------------------------- #
+# This package is authored on a Dropbox-backed SMB share, which litters
+# half-deleted and in-flight copies alongside the real files.
+.dropbox
+.dropbox.attr
+.dropbox.cache
+.smbdelete*
+*.sb-????????-??????
+*.tmp.[0-9]*.[0-9a-f]*

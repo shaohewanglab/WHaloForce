@@ -1,0 +1,5 @@
+construct,condition,cell_id,region,tau_int_ns,n_samples
+aCat-WF,stretched,LV161_batch2/10turns-27/cell_0031,T,2.418192579055423,16
+aCat-WF,stretched,LV161_batch2/10turns-27/cell_0031,R,2.288494868569461,28
+aCat-WF,stretched,LV161_batch2/10turns-27/cell_0031,B,2.5412835777418183,14
+aCat-WF,stretched,LV161_batch2/10turns-27/cell_0031,L,2.2882714996788596,24
