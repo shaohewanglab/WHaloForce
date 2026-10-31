@@ -1,6 +1,7 @@
-"""Figure 2c: per-cell in-FA fluorescence lifetime (intensity-weighted mean,
+"""Figure 2c: per-FOV in-FA fluorescence lifetime (intensity-weighted mean,
 pooled-NNLS) for the three untreated vinculin constructs (Vin-WF, Vin-cpH,
-Vin-N-WF), one dot per cell.
+Vin-N-WF), one dot per field of view (FOV); different FOVs contain different
+cells. (Earlier versions labelled the same values per-cell.)
 
 Reads data/Fig2/Fig2c.csv and writes figures/Fig2c.svg and .png. Box + jittered
 dots; each construct is compared with Vin-WF by two-sided Mann-Whitney U with
@@ -98,7 +99,7 @@ def main():
 
     ax.set_xticks(positions)
     ax.set_xticklabels([f"{c}\n(n={k})" for c, k in zip(ORDER, n)], fontsize=7)
-    ax.set_ylabel(f"Per-cell in-FA {TAU} (ns)")
+    ax.set_ylabel(f"Per-FOV in-FA {TAU} (ns)")
     ax.spines[["top", "right"]].set_visible(False)
     ax.tick_params(axis="x", length=0)
     fig.tight_layout(pad=0.3)

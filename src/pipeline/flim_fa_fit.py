@@ -50,9 +50,9 @@ Reported per FA:
 Output
 ------
 <output-dir>/per_roi_measurements.csv  -- one row per FA
-<output-dir>/per_cell_roi.csv          -- one row per image: NNLS on the pooled
-                                          decay of ALL in-FA pixels (bias-free
-                                          per-cell in-FA tau)
+<output-dir>/per_FOV_summary.csv       -- one row per image (field of view, FOV):
+                                          NNLS on the pooled decay of ALL in-FA
+                                          pixels (bias-free per-FOV in-FA tau)
 
 Run (needs ptufile + lmfit, same as flim_pipeline.py -- see environment.yml):
 
@@ -309,16 +309,16 @@ def fit_image(cube: np.ndarray, labels: np.ndarray, Af: np.ndarray,
         row.update(het)
         rows.append(row)
 
-    # Per-cell (per-image) pooled in-FA decay = all labelled pixels.
-    cell = None
+    # Per-FOV (per-image) pooled in-FA decay = all labelled pixels.
+    fov = None
     in_fa = (labels > 0) & bright
     if int(in_fa.sum()) >= min_area:
         x, tau_int, tau_amp, n_phot, chi2 = _fit_pool(in_fa)
         if n_phot >= min_roi:
-            cell = dict(tau_inFA_nnls_ns=tau_int, tau_inFA_nnls_amp_ns=tau_amp,
-                        n_inFA_pixels=int(in_fa.sum()), in_FA_photons=n_phot,
-                        n_FAs=int(labels.max()), chi2_red=chi2)
-    return rows, cell
+            fov = dict(tau_inFA_nnls_ns=tau_int, tau_inFA_nnls_amp_ns=tau_amp,
+                       n_inFA_pixels=int(in_fa.sum()), in_FA_photons=n_phot,
+                       n_FAs=int(labels.max()), chi2_red=chi2)
+    return rows, fov
 
 
 def parse_args(argv=None):
@@ -427,7 +427,7 @@ def main(argv=None):
         exclude_ranges.append((lo, hi))
 
     rng = np.random.default_rng(args.seed)
-    out_rows, cell_rows, img_rows = [], [], []
+    out_rows, fov_rows, img_rows = [], [], []
     for _, row in df.iterrows():
         name = str(row[fp.COL_PATH])
         ptu = fp.find_ptu_for_path(ptu_folder, name)
@@ -456,7 +456,7 @@ def main(argv=None):
         Af = A[keep]
         dof = max(int(keep.sum()) - 4, 1)
 
-        rois, cell = fit_image(cube, labels, Af, keep, taus, dof,
+        rois, fov = fit_image(cube, labels, Af, keep, taus, dof,
                                args.min_photons_per_pixel, args.min_photons_per_roi,
                                args.min_area_px, args.het_reps, rng)
         lasx = float(row.get(fp.COL_MEAN_INT_LASX, np.nan))
@@ -465,9 +465,9 @@ def main(argv=None):
                      tau1_ns=float(taus[0]), tau2_ns=float(taus[1]),
                      tau3_ns=float(taus[2]), lasx_mean_tau_int_ns=lasx)
         out_rows.extend(rois)
-        if cell is not None:
-            cell.update(image_name=image_name, path=name, lasx_mean_tau_int_ns=lasx)
-            cell_rows.append(cell)
+        if fov is not None:
+            fov.update(image_name=image_name, path=name, lasx_mean_tau_int_ns=lasx)
+            fov_rows.append(fov)
         img_rows.append(dict(image_name=image_name, n_rois=int(labels.max()),
                              n_rois_fitted=len(rois)))
         log.info("  %-22s FAs=%4d fitted=%4d", image_name, int(labels.max()), len(rois))
@@ -492,10 +492,10 @@ def main(argv=None):
     else:
         log.warning("No FA rows produced.")
 
-    if cell_rows:
-        p = output_dir / "per_cell_roi.csv"
-        pd.DataFrame(cell_rows).to_csv(p, index=False, float_format="%.5f")
-        log.info("Wrote %d per-cell rows -> %s", len(cell_rows), p)
+    if fov_rows:
+        p = output_dir / "per_FOV_summary.csv"
+        pd.DataFrame(fov_rows).to_csv(p, index=False, float_format="%.5f")
+        log.info("Wrote %d per-FOV rows -> %s", len(fov_rows), p)
 
     pd.DataFrame(img_rows).to_csv(output_dir / "per_roi_per_image_summary.csv",
                                   index=False)

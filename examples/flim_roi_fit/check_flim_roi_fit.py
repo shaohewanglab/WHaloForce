@@ -107,9 +107,9 @@ def main() -> int:
     # Same floors as the shipped run for this dataset (flim_fa_fit defaults).
     # The IRF in the .npz already carries that run's reference model, damping and
     # session shift, so no IRF settings are needed here.
-    rows, cell = fa.fit_image(cube, labels, Af, keep, taus, dof,
-                              min_pix=1.0, min_roi=200.0, min_area=5,
-                              B=200, rng=np.random.default_rng(0))
+    rows, fov = fa.fit_image(cube, labels, Af, keep, taus, dof,
+                             min_pix=1.0, min_roi=200.0, min_area=5,
+                             B=200, rng=np.random.default_rng(0))
     got = pd.DataFrame(rows).sort_values("roi_id").reset_index(drop=True)
     exp = pd.read_csv(exp_path).sort_values("roi_id").reset_index(drop=True)
 
@@ -155,17 +155,17 @@ def main() -> int:
     # The per-image pooled in-FA lifetime: the quantity Fig. 2c and 2e plot.
     # In the published run it is pooled over the whole 512x512 image, so it is
     # not comparable to this crop; check it is finite and physically sensible.
-    if cell is None:
-        print("  [FAIL] per-cell pooled in-ROI fit returned nothing")
-        failures.append("per_cell")
+    if fov is None:
+        print("  [FAIL] per-FOV pooled in-ROI fit returned nothing")
+        failures.append("per_FOV")
     else:
-        t = cell["tau_inFA_nnls_ns"]
+        t = fov["tau_inFA_nnls_ns"]
         ok = np.isfinite(t) and 1.0 < t < 4.0
-        print(f"  [{'OK ' if ok else 'FAIL'}] per-cell pooled in-ROI tau_int = "
-              f"{t:.5f} ns over {cell['n_inFA_pixels']} px "
-              f"(crop only; the published per-cell value pools the full image)")
+        print(f"  [{'OK ' if ok else 'FAIL'}] per-FOV pooled in-ROI tau_int = "
+              f"{t:.5f} ns over {fov['n_inFA_pixels']} px "
+              f"(crop only; the published per-FOV value pools the full image)")
         if not ok:
-            failures.append("per_cell")
+            failures.append("per_FOV")
 
     if failures:
         print(f"\nFAILED: {len(failures)} column(s): {failures}")

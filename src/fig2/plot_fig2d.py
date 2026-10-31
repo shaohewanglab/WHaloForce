@@ -1,8 +1,9 @@
-"""Figure 2d: per-cell standard deviation of the per-FA lifetime (a spatial-
+"""Figure 2d: per-FOV standard deviation of the per-FA lifetime (a spatial-
 heterogeneity metric) for the three untreated vinculin constructs, log y-axis,
-one dot per cell.
+one dot per field of view (FOV); different FOVs contain different cells.
+(Earlier versions labelled the same values per-cell.)
 
-SD = sqrt(per-cell sample variance of per-FA tau, ddof=1). Because sqrt is
+SD = sqrt(per-FOV sample variance of per-FA tau, ddof=1). Because sqrt is
 monotonic and the test is rank-based, the p-values are identical to those of the
 variance version of this panel; only the axis values and units change (ns rather
 than ns^2).
@@ -102,7 +103,7 @@ def main():
 
     ax.set_xticks(positions)
     ax.set_xticklabels([f"{c}\n(n={k})" for c, k in zip(ORDER, n)], fontsize=7)
-    ax.set_ylabel(f"Per-cell SD of per-FA {TAU} (ns)")
+    ax.set_ylabel(f"Per-FOV SD of per-FA {TAU} (ns)")
     ax.spines[["top", "right"]].set_visible(False)
     ax.tick_params(axis="x", length=0)
     fig.tight_layout(pad=0.3)

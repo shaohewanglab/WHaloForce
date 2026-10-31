@@ -58,7 +58,7 @@ inside it are fully contained, none clipped by the boundary. Each ROI's fit only
 ever sums that ROI's own pixels, so cropping cannot change any of their fits.
 
 The one column that is *not* comparable is the per-image pooled in-FA lifetime
-(`per_cell_roi.csv` in a real run): that pools every in-FA pixel of the full
+(`per_FOV_summary.csv` in a real run): that pools every in-FA pixel of the full
 512x512 image, so the crop's value legitimately differs. The check reports it and
 sanity-checks its range instead of comparing it.
 

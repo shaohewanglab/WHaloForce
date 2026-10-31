@@ -1,5 +1,7 @@
-"""Figure 2e: per-cell in-FA lifetime (pooled-NNLS) under DMSO vs blebbistatin
-(20 uM), one panel per vinculin construct (Vin-WF, Vin-cpH, Vin-N-WF). Pools
+"""Figure 2e: per-FOV in-FA lifetime (pooled-NNLS) under DMSO vs blebbistatin
+(20 uM), one panel per vinculin construct (Vin-WF, Vin-cpH, Vin-N-WF), one dot
+per field of view (FOV); different FOVs contain different cells (earlier
+versions labelled the same values per-cell). Pools
 two independent experiments per construct, drawn with a single symbol: the
 `dataset` column is retained in the source CSV but is no longer distinguished in
 the plot (the two experiments are reported in the reporting summary instead).
@@ -103,7 +105,7 @@ def main():
         ax.tick_params(axis="x", length=0)
 
     axes[0].set_ylim(ylo, yhi)
-    axes[0].set_ylabel(f"Per-cell in-FA {TAU} (ns)")
+    axes[0].set_ylabel(f"Per-FOV in-FA {TAU} (ns)")
 
     fig.tight_layout(pad=0.3)
     save(fig, "Fig2e")

@@ -26,7 +26,7 @@ that runs from committed inputs only, see `examples/flim_roi_fit/` and
 2 cellpose_inference.py              -> integer label maps (FAs / cells /
     |                                   junctions), QC overlays
     v
-3 flim_fa_fit.py                     -> per-ROI and per-cell lifetimes by NNLS
+3 flim_fa_fit.py                     -> per-ROI and per-FOV lifetimes by NNLS
   or flim_roi_fit.py                    on each ROI's pooled raw decay
     |
     v
@@ -37,8 +37,8 @@ that runs from committed inputs only, see `examples/flim_roi_fit/` and
 ```
 
 Stage 4 is deliberately not generalized: each panel aggregates differently
-(per-cell, per-FOV, radial profile, time series), and what it produces is exactly
-the committed `data/FigX/FigXy.csv`. The aggregation actually used for each panel
+(per-FOV, per-junction, per-worm, radial profile, time series), and what it
+produces is exactly the committed `data/FigX/FigXy.csv`. The aggregation actually used for each panel
 is documented in that panel's plotting script and in `data/index.csv`.
 
 ## Entry points
@@ -99,15 +99,22 @@ model. `chi2` is the median reduced chi-squared of the pooled in-ROI NNLS fit.
 | Session | Panels | Detector | Reference | sigma | shift (ns) | chi2 before -> after |
 |---|---|---|---|---|---|---|
 | 20260526 3T3-untreated | 2c, 2d | HyD X 4 | `RhB-37C-HyDX4-554-558to650` | 0.1 | -0.06 | 18.3 -> 4.2 |
-| 20260609 | 2e (LV), S3c | HyD X 2 | `RhB-37C-HyDX2-561-565to650-1` | 0.2 | -0.08 | 44.7 -> 3.7 |
+| 20260609 | 2e (LV), ED3c | HyD X 2 | `RhB-37C-HyDX2-561-565to650-1` | 0.2 | -0.08 | 44.7 -> 3.7 |
 | 20260727 | 2e | HyD X 2 | `RhB-37C-HyDX2-561-565to650-1` | 0.1 | -0.02 | 46.5 -> 11.2 |
 | 20260606 | 5c (Y5uM-12h) | HyD X 2 | `RhB-37C-HyDX2-561-565to650-1` | 0.1 | -0.02 | 61.5 -> 8.3 |
 | 20260607 | 5c (drug-panel) | HyD X 2 | `RhB-37C-HyDX2-561-565to650-1` | 0.1 | -0.02 | 27.2 -> 3.5 |
 | 20260608 | 5c (drug-panel2) | HyD X 2 | `RhB-37C-HyDX2-561-565to650-1` | 0.1 | **+0.16** | 192.2 -> 6.1 |
 
-The MDCKII junction datasets (Fig. 3c/3d/3f/3g, S4g-i) and the iCM datasets
+The MDCKII junction datasets (Fig. 3c/3d/3f/3g, ED4g-i) and the iCM datasets
 (Fig. 2h-2k) were processed separately with damped RL at sigma 0.4 and are not
 part of this table.
+
+The staged-labeling sessions (Fig. 5d, Extended Data Fig. 7c,d,f-h; 20261013,
+20261017, 20261024 and 20261027) use the same HyD X 2 reference
+(`RhB-37C-HyDX2-561-565to650-1`, tau_R = 2.088 ns). The 20261027 decays were
+0.12 ns later than the other sessions, measured on their leading edges, so that
+session has an extra IRF time-zero shift of +0.10 ns. One FOV was excluded
+before fitting (20261024 `3T3-185-stain-treat-DMSO-8`, Extended Data Fig. 7f).
 
 An independent check on the 3T3-untreated choice: the 2026-01-27 HyD X 4 reference
 at the same 554/558-650 window -- a different dye batch four months earlier, and
@@ -169,7 +176,7 @@ python src/pipeline/cellpose_inference.py \
           '(^|-)bleb(-|$)=<weights>/FA-3T3-bleb20' \
   --outdir cellpose_labels/dmso-bleb20-0727-185
 
-# Stage 3 -- per-FA and per-cell lifetimes (same IRF flags as stage 1)
+# Stage 3 -- per-FA and per-FOV lifetimes (same IRF flags as stage 1)
 python src/pipeline/flim_fa_fit.py \
   --spreadsheets 20260727-3T3-bulk-185-186-188-bleb20uM-12h.xlsx \
   --ptu-folder   20260727-3T3-bulk-185-186-188-bleb20uM-12h.sptw \
@@ -180,9 +187,12 @@ python src/pipeline/flim_fa_fit.py \
 ```
 
 Stage 3 writes `per_roi_measurements.csv` (one row per focal adhesion) and
-`per_cell_roi.csv` (one row per image: NNLS on the pooled decay of all in-FA
-pixels). The per-cell in-FA `tau_int` is what Fig. 2c and Fig. 2e plot; the
-per-FA variance within each cell is what Fig. 2d plots.
+`per_FOV_summary.csv` (one row per image, i.e. one field of view (FOV): NNLS on
+the pooled decay of all in-FA pixels; different FOVs contain different cells).
+This per-FOV in-FA `tau_int` is what Fig. 2c, 2e, 5c, 5d and Extended Data Fig. 7
+plot; the per-FA SD within each FOV is what Fig. 2d plots. (Analysis outputs
+made before 2026-10-31, including any in the raw-data deposit, name this file
+`per_cell_roi.csv`; the contents are the same.)
 
 ## Reproducibility of the fit
 
@@ -192,7 +202,7 @@ Re-running stage 3 on macOS against the published `per_roi_measurements.csv`
 - `area_px`, `n_pixels_used`, `n_photons_total`, `het_n_px`: exact.
 - `tau_int_ns`, `tau_amp_ns`, `chi2_red`, `mean_intensity`, and the observed
   within-ROI statistics `het_var_obs` / `moran_I_obs`: agree to 1e-5, which is
-  the committed CSV's own `%.5f` rounding. Per-cell pooled `tau_inFA_nnls_ns`
+  the committed CSV's own `%.5f` rounding. Per-FOV pooled `tau_inFA_nnls_ns`
   matched exactly.
 - `alpha1..alpha3`: agree to <= 1e-5 relative. The three-component amplitude
   split is mildly ill-conditioned (the fast component is close to the IRF), so
