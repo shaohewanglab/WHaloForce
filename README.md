@@ -39,8 +39,8 @@ regenerating from its committed CSV, plus the upstream analysis-step checks:
 python examples/run_examples.py
 ```
 
-Last run: 41/41 panels and 2/2 step checks passed on Python 3.12.11 with the
-pinned versions in `requirements.txt`.
+Last run: 48/48 panels and 2/2 step checks passed (2026-10-31, Python 3.12
+with the packages in `requirements.txt`).
 
 ## Figure panel to script and source data
 
@@ -52,9 +52,9 @@ pinned versions in `requirements.txt`.
 | 1h | cpWHalo-554 force-clamp trace | src/fig1/plot_fig1h.py | data/Fig1/Fig1h.csv |
 | 1i | Quenched-state dwell times (box) | src/fig1/plot_fig1i.py | data/Fig1/Fig1i.csv |
 | 1j | Dwell-time survival | src/fig1/plot_fig1j.py | data/Fig1/Fig1j.csv |
-| 2c | Per-cell in-FA lifetime, untreated | src/fig2/plot_fig2c.py | data/Fig2/Fig2c.csv |
-| 2d | Per-cell SD of per-FA lifetime | src/fig2/plot_fig2d.py | data/Fig2/Fig2d.csv |
-| 2e | Per-cell in-FA lifetime, DMSO vs blebbistatin | src/fig2/plot_fig2e.py | data/Fig2/Fig2e.csv |
+| 2c | Per-FOV in-FA lifetime, untreated | src/fig2/plot_fig2c.py | data/Fig2/Fig2c.csv |
+| 2d | Per-FOV SD of per-FA lifetime | src/fig2/plot_fig2d.py | data/Fig2/Fig2d.csv |
+| 2e | Per-FOV in-FA lifetime, DMSO vs blebbistatin | src/fig2/plot_fig2e.py | data/Fig2/Fig2e.csv |
 | 2g | Lifetime change vs time (spreading) | src/fig2/plot_fig2g.py | data/Fig2/Fig2g.csv |
 | 2h | Vin-WF cardiomyocyte traces | src/fig2/plot_fig2h.py | data/Fig2/Fig2h.csv |
 | 2i | Vin-cpH cardiomyocyte traces | src/fig2/plot_fig2i.py | data/Fig2/Fig2i.csv |
@@ -70,34 +70,43 @@ pinned versions in `requirements.txt`.
 | 4f | DEB-1/vinculin lifetime, pharynx vs body-wall muscle | src/fig4/plot_fig4f.py | data/Fig4/Fig4f.csv |
 | 4g | LAM-2/laminin lifetime, pharynx vs body-wall muscle | src/fig4/plot_fig4g.py | data/Fig4/Fig4g.csv |
 | 5c | Per-FOV in-FA lifetime, inhibitors (MEF) | src/fig5/plot_fig5c.py | data/Fig5/Fig5c.csv |
+| 5d | Staged labeling, per-FOV in-FA lifetime (MEF Vcl-WF, JFX554) | src/fig5/plot_fig5d.py | data/Fig5/Fig5d.csv |
 | 6b | Spermathecal lifetime contrast vs adult age | src/fig6/plot_Fig6b.py (stats: src/fig6/stats_Fig6b.py) | data/Fig6/Fig6b.csv |
 | 6d | Spermathecal lifetime, control vs glp-1(ts) | src/fig6/plot_Fig6d.py | data/Fig6/Fig6d.csv |
 | 6f | Spermathecal lifetime contrast vs ovulation number | src/fig6/plot_Fig6f.py | data/Fig6/Fig6f.csv |
 | 6h | Spermathecal lifetime, control vs plc-1(RNAi) | src/fig6/plot_Fig6h.py | data/Fig6/Fig6h.csv |
-| S1b | Relative brightness, 17 dyes | src/figS1/plot_figS1b.py | data/FigS1/FigS1b.csv |
-| S1c | Mean lifetime, 17 dyes | src/figS1/plot_figS1c.py | data/FigS1/FigS1c.csv |
-| S2a | Absorption/emission spectra | src/figS2/plot_figS2a.py | data/FigS2/FigS2a.csv |
-| S2b | Photophysics table (no plot) | - | data/FigS2/FigS2b.csv |
-| S2c | cpWHalo reversibility trace 1 | src/figS2/plot_figS2c.py | data/FigS2/FigS2c.csv |
-| S2d | cpWHalo reversibility trace 2 | src/figS2/plot_figS2d.py | data/FigS2/FigS2d.csv |
-| S3c | Representative pooled in-FA decay fit | src/figS3/plot_figS3c.py | data/FigS3/FigS3c.csv, FigS3c_meta.csv |
-| S4g | E-cadherin per-FOV variance | src/figS4/plot_figS4g.py | data/FigS4/FigS4g.csv |
-| S4h | alpha-catenin per-FOV variance | src/figS4/plot_figS4h.py | data/FigS4/FigS4h.csv |
-| S4i | Radial lifetime, one image | src/figS4/plot_figS4i.py | data/FigS4/FigS4i.csv |
-| S5c | Representative periphery lifetime profile, MDCKII stretch | src/figS5/plot_figS5c.py | data/FigS5/FigS5c.csv |
-| S5d | Representative four-region lifetime, MDCKII stretch | src/figS5/plot_figS5d.py | data/FigS5/FigS5d.csv |
-| S6d | Brood size per strain | src/figS6/plot_FigS6d.py | data/FigS6/FigS6d.csv |
-| S6e | Embryonic viability per strain | src/figS6/plot_FigS6e.py | data/FigS6/FigS6e.csv |
+| 6j | Spermathecal lifetime contrast, L4 vs day-3 labeling, day 4 | src/fig6/plot_Fig6j.py | data/Fig6/Fig6j.csv |
+| ED1b | Relative brightness, 17 dyes | src/extdatafig1/plot_ExtDataFig1b.py | data/ExtDataFig1/ExtDataFig1b.csv |
+| ED1c | Mean lifetime, 17 dyes | src/extdatafig1/plot_ExtDataFig1c.py | data/ExtDataFig1/ExtDataFig1c.csv |
+| ED2a | Absorption/emission spectra | src/extdatafig2/plot_ExtDataFig2a.py | data/ExtDataFig2/ExtDataFig2a.csv |
+| ED2b | Photophysics table (no plot) | - | data/ExtDataFig2/ExtDataFig2b.csv |
+| ED2c | cpWHalo reversibility trace 1 | src/extdatafig2/plot_ExtDataFig2c.py | data/ExtDataFig2/ExtDataFig2c.csv |
+| ED2d | cpWHalo reversibility trace 2 | src/extdatafig2/plot_ExtDataFig2d.py | data/ExtDataFig2/ExtDataFig2d.csv |
+| ED3c | Representative pooled in-FA decay fit | src/extdatafig3/plot_ExtDataFig3c.py | data/ExtDataFig3/ExtDataFig3c.csv, ExtDataFig3c_meta.csv |
+| ED4g | E-cadherin per-FOV variance | src/extdatafig4/plot_ExtDataFig4g.py | data/ExtDataFig4/ExtDataFig4g.csv |
+| ED4h | alpha-catenin per-FOV variance | src/extdatafig4/plot_ExtDataFig4h.py | data/ExtDataFig4/ExtDataFig4h.csv |
+| ED4i | Radial lifetime, one image | src/extdatafig4/plot_ExtDataFig4i.py | data/ExtDataFig4/ExtDataFig4i.csv |
+| ED5c | Representative periphery lifetime profile, MDCKII stretch | src/extdatafig5/plot_ExtDataFig5c.py | data/ExtDataFig5/ExtDataFig5c.csv |
+| ED5d | Representative four-region lifetime, MDCKII stretch | src/extdatafig5/plot_ExtDataFig5d.py | data/ExtDataFig5/ExtDataFig5d.csv |
+| ED6d | Brood size per strain | src/extdatafig6/plot_ExtDataFig6d.py | data/ExtDataFig6/ExtDataFig6d.csv |
+| ED6e | Embryonic viability per strain | src/extdatafig6/plot_ExtDataFig6e.py | data/ExtDataFig6/ExtDataFig6e.csv |
+| ED7c | Staged labeling (MEF Vcl-WF, JF549) | src/extdatafig7/plot_ExtDataFig7c.py | data/ExtDataFig7/ExtDataFig7c.csv |
+| ED7d | Staged labeling (MEF Vcl-WF, JF571) | src/extdatafig7/plot_ExtDataFig7d.py | data/ExtDataFig7/ExtDataFig7d.csv |
+| ED7f | Staged labeling (NIH-3T3 Vin-WF, JFX554) | src/extdatafig7/plot_ExtDataFig7f.py | data/ExtDataFig7/ExtDataFig7f.csv |
+| ED7g | Staged labeling (NIH-3T3 Vin-WF, JF549) | src/extdatafig7/plot_ExtDataFig7g.py | data/ExtDataFig7/ExtDataFig7g.csv |
+| ED7h | Staged labeling (NIH-3T3 Vin-WF, JF571) | src/extdatafig7/plot_ExtDataFig7h.py | data/ExtDataFig7/ExtDataFig7h.csv |
 
-`data/index.csv` is the data dictionary: every file, its columns and units, the
-panel it maps to, and the number of rows.
+"ED" is Extended Data (formerly Supplementary Fig. S1-S6, same order and panel
+letters). `data/index.csv` is the data dictionary: every file, its columns and
+units, the panel it maps to, and the number of rows.
 
 ### Panels not in this table
-- Image and schematic panels (FLIM images, gels, cartoons, and the structure
-  renders in Fig. 1b, S4b, S4e, S6b) have no source-data CSV. Structure renders
-  are documented in `docs/pymol_render_notes.md`. This also covers the
-  representative FLIM/microscopy image panels (Fig. 3h-j; 4a-d; 6a, 6c, 6e,
-  6g, 6i, 6j; S5a, S5b; S6a) -- these are figure crops assembled directly
+- Image and schematic panels (FLIM images, gels, cartoons, timelines, and the
+  structure renders in Fig. 1b, ED4b, ED4e, ED6b) have no source-data CSV.
+  Structure renders are documented in `docs/pymol_render_notes.md`. This also
+  covers the representative FLIM/microscopy image panels (Fig. 3h-j; 4a-d; 5b,
+  5e, 5f; 6a, 6c, 6e, 6g, 6i; ED3a; ED5a, ED5b; ED6a; ED7a, ED7e) and the
+  labeling timelines (Fig. 5d left, 6i; ED7b) -- these are assembled directly
   for the manuscript, not files this package regenerates.
 
 ## Layout
@@ -165,10 +174,16 @@ python examples/segmentation/check_segmentation.py     # validates the committed
   Holm-Bonferroni correction, via the shared helpers in `src/fig6/_stats.py`.
   Fig. 6b's p-values are reported in its legend rather than drawn on the panel
   and are computed by `src/fig6/stats_Fig6b.py` (writes `Fig6b_stats.csv`).
-  Fig. S6d and S6e deliberately keep Welch's t-test: both are ceiling-bounded
-  measurements whose N2 reference piles up at the ceiling, where a rank test
-  reports significance for biologically negligible shifts -- see the rationale
-  in `welch_holm_vs_control()` in `src/figS6/_common.py`.
+  Fig. 6j is a single comparison (two-sided Mann-Whitney U, no correction).
+  Extended Data Fig. 6d and 6e deliberately keep Welch's t-test: both are
+  ceiling-bounded measurements whose N2 reference piles up at the ceiling, where
+  a rank test reports significance for biologically negligible shifts -- see the
+  rationale in `welch_holm_vs_control()` in `src/extdatafig6/_common.py`.
+- FA lifetime panels (Fig. 2c-e, 5c, 5d; ED7c,d,f-h) plot one value per field of
+  view (FOV); different FOVs contain different cells. The staged-labeling panels
+  (Fig. 5d, ED7) share `src/common/staged.py`: two-sided Mann-Whitney U on FOVs
+  pooled across experiments, Holm-Bonferroni over the two Bleb vs DMSO tests of
+  a panel and, separately, over its two schedule tests.
 
 ## Data availability
 Source data are provided here and with the article. Raw and processed microscopy

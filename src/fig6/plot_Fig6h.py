@@ -65,7 +65,7 @@ from _stats import mwu_holm  # noqa: E402
 # --- house style ---
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "common"))
 from style import (apply_style, save, p_text, swarm_offsets, dot_diameter_in,
-                   DOT_SIZE, DOT_COLOR, DOT_ALPHA, DATA_DIR, TAU)  # noqa: E402
+                   DOT_COLOR, DOT_ALPHA, DATA_DIR, TAU)  # noqa: E402
 
 apply_style()
 
@@ -83,11 +83,13 @@ MAX_SWARM = 0.30
 YLIM = (1.42, 3.20)
 YTICKS = [1.5, 2.0, 2.5, 3.0]
 
-# Layout in inches, fixed to the figure slot.
-FIG_W, FIG_H = 2.6, 1.4
-LEFT_IN, RIGHT_IN = 0.34, 0.02
+# Layout in inches, fixed to the final figure slot (2026-10-31: 2.4 x 1.3 in,
+# was 2.6 x 1.4; smaller dots, all text 7 pt).
+FIG_W, FIG_H = 2.4, 1.3
+LEFT_IN, RIGHT_IN = 0.34, 0.08  # right margin leaves room for the second title
 TOP_IN, BOT_IN = 0.14, 0.26     # panel title / two-line x labels
-WSPACE_IN = 0.10                # y ticks are shared, so the gap can be small
+WSPACE_IN = 0.16                # y ticks are shared, so the gap can be small
+DOT_S = 12                      # scatter area (pt^2); house DOT_SIZE is 18
 
 
 def main():
@@ -97,7 +99,7 @@ def main():
 
     # marker diameter in data units, for the beeswarm spacing
     sub_w = (FIG_W - LEFT_IN - RIGHT_IN - WSPACE_IN) / 2
-    d_in = dot_diameter_in()
+    d_in = dot_diameter_in(DOT_S)
     dx = d_in / (sub_w / (XLIM[1] - XLIM[0]))
     dy = d_in / ((FIG_H - TOP_IN - BOT_IN) / (YLIM[1] - YLIM[0]))
 
@@ -116,7 +118,7 @@ def main():
         # Published style: per-worm dots with the mean drawn as a black bar and
         # SD whiskers on top -- no box.
         for i, v in enumerate(vals):
-            ax.scatter(i + swarm_offsets(v, dx, dy, MAX_SWARM), v, s=DOT_SIZE,
+            ax.scatter(i + swarm_offsets(v, dx, dy, MAX_SWARM), v, s=DOT_S,
                        color=DOT_COLOR, alpha=DOT_ALPHA, zorder=2, linewidths=0)
             m, sd = v.mean(), v.std(ddof=1)
             ax.errorbar(i, m, yerr=sd, fmt="none", ecolor="black", elinewidth=0.9,
@@ -128,7 +130,7 @@ def main():
         y_brk = ymax + 0.06
         ax.plot([0, 0, 1, 1], [y_brk - 0.02, y_brk, y_brk, y_brk - 0.02],
                 color="black", lw=0.7, zorder=5)
-        p_text(ax, 0.5, y_brk, p_adj, fontsize=6.5, zorder=6)
+        p_text(ax, 0.5, y_brk, p_adj, fontsize=7, zorder=6)
         print(f"{group}: MWU U = {U:.1f}, PS = {eff:.3f}, p = {p_raw:.4g}, "
               f"Holm p = {p_adj:.4g}, n = {len(vals[0])}/{len(vals[1])}")
 

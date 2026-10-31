@@ -5,9 +5,9 @@ data/Fig1/Fig1g.csv,Fig. 1g,Representative cpWHalo-554 force-ramp trace,time sam
 data/Fig1/Fig1h.csv,Fig. 1h,Representative cpWHalo-554 force-clamp trace,time sample,426,time_s; force_pN; intensity_raw; intensity_bgsub
 data/Fig1/Fig1i.csv,Fig. 1i,Quenched-state dwell times under constant force (box),tether,62,force_pN; dwell_time_s; event; observed
 data/Fig1/Fig1j.csv,Fig. 1j,Quenched-state dwell times with censoring (survival),tether,62,force_pN; dwell_time_s; event; observed
-data/Fig2/Fig2c.csv,Fig. 2c,"Per-cell mean in-FA lifetime, untreated, 3 constructs",cell,66,construct; tau_inFA_ns
-data/Fig2/Fig2d.csv,Fig. 2d,"Per-cell standard deviation of the per-FA lifetime (spatial heterogeneity), untreated",cell,66,construct; tau_sd_ns
-data/Fig2/Fig2e.csv,Fig. 2e,"Per-cell in-FA lifetime, DMSO vs blebbistatin, 3 constructs, 2 batches",cell,177,construct; treatment; dataset; tau_inFA_ns
+data/Fig2/Fig2c.csv,Fig. 2c,"Per-FOV mean in-FA lifetime, untreated, 3 constructs",FOV,66,construct; tau_inFA_ns
+data/Fig2/Fig2d.csv,Fig. 2d,"Per-FOV standard deviation of the per-FA lifetime (spatial heterogeneity), untreated",FOV,66,construct; tau_sd_ns
+data/Fig2/Fig2e.csv,Fig. 2e,"Per-FOV in-FA lifetime, DMSO vs blebbistatin, 3 constructs, 2 batches",FOV,177,construct; treatment; dataset; tau_inFA_ns
 data/Fig2/Fig2g.csv,Fig. 2g,Vin-WF lifetime change vs time during spreading (DMSO vs Y-27632),FOV x timepoint,390,condition; fov_id; time_min; dtau_ns
 data/Fig2/Fig2h.csv,Fig. 2h,"Vin-WF cardiomyocyte: bright-costamere lifetime and motion, first 10 s",timepoint,59,t_s; tau_brightFA_ns; motion_au
 data/Fig2/Fig2i.csv,Fig. 2i,"Vin-cpH cardiomyocyte: lifetime and motion, first 10 s",timepoint,58,t_s; tau_brightFA_ns; motion_au
@@ -24,22 +24,29 @@ data/Fig4/Fig4e.csv,Fig. 4e,"HMR-1/E-cadherin lifetime, seam-cell junctions, per
 data/Fig4/Fig4f.csv,Fig. 4f,"DEB-1/vinculin lifetime, pharynx vs body-wall muscle",worm x tissue,86,construct; tissue; tau_int_ns; worm_id
 data/Fig4/Fig4g.csv,Fig. 4g,"LAM-2/laminin gamma1 lifetime, pharynx vs body-wall muscle basement membrane",worm x tissue,148,construct; tissue; tau_int_ns; worm_id
 data/Fig5/Fig5c.csv,Fig. 5c,"Per-FOV in-FA lifetime under inhibitors, Vcl-WF MEFs",FOV,196,treatment; tau_inFA_ns; dataset; source_treatment; image
+data/Fig5/Fig5d.csv,Fig. 5d,"Staged labeling: per-FOV in-FA lifetime, DMSO vs Bleb, treat->label vs label->treat, MEF Vcl-WF, JFX554, 2 experiments",FOV,121,cell_type; construct; dye; experiment_date; schedule; treatment; image; tau_inFA_ns
 data/Fig6/Fig6b.csv,Fig. 6b,"Spermathecal local lifetime contrast (tau_Spt norm) vs adult age, 3 constructs",worm,230,worm_id; construct; age_day; tau_spermatheca_ns; tau_proximal_germline_ns; tau_uterus_ns; tau_Spt_norm_ns
 data/Fig6/Fig6d.csv,Fig. 6d,"Spermathecal lifetime, control vs glp-1(ts), 15C vs 25C growth",worm,38,worm_id; genotype; temperature_C; tau_Spt_ns
 data/Fig6/Fig6f.csv,Fig. 6f,Spermathecal lifetime contrast vs cumulative ovulation number,spermatheca,53,spermatheca_id; worm_id; spt_side; mean_ovulations_per_spermatheca; tau_Spt_norm_ns
 data/Fig6/Fig6h.csv,Fig. 6h,"Spermathecal lifetime, control vs plc-1(RNAi), by ovulation group",worm,85,worm_id; condition; ovulation_group; tau_Spt_ns
-data/FigS1/FigS1b.csv,Fig. S1b,"Relative brightness, 17 dyes x 3 constructs",FOV,153,construct; dye; rel_brightness
-data/FigS1/FigS1c.csv,Fig. S1c,"Intensity-weighted mean lifetime, 17 dyes x 3 constructs",FOV,153,construct; dye; tau_int_ns
-data/FigS2/FigS2a.csv,Fig. S2a,"Normalized absorption and emission spectra, 450-700 nm",wavelength x sample x spectrum,2406,wavelength_nm; sample; spectrum_type; normalized_value
-data/FigS2/FigS2b.csv,Fig. S2b,"Photophysics summary table (peak abs/em, epsilon, QY, molecular brightness = epsilon*QY/1000)",sample,3,sample; peak_wl_abs_nm; peak_abs; epsilon_M-1cm-1; epsilon_SE; R2; back_calc_conc_uM; peak_wl_em_nm; QY_mean; QY_se; brightness_mM-1cm-1
-data/FigS2/FigS2c.csv,Fig. S2c,"cpWHalo-554 reversibility trace (representative 1), first 60 s",time sample,1501,time_s; force_pN; intensity_raw; intensity_bgsub
-data/FigS2/FigS2d.csv,Fig. S2d,"cpWHalo-554 reversibility trace (representative 2), first 30 s",time sample,1106,time_s; force_pN; intensity_raw; intensity_bgsub
-data/FigS3/FigS3c.csv,Fig. S3c,"Representative pooled in-FA decay, NNLS fit, residual",time bin,132,time_ns; counts; fit; residual
-data/FigS3/FigS3c_meta.csv,Fig. S3c,"Fit summary (tau_int, photons, n_FA, chi2) for the caption",fit,1,image; construct; treatment; tau_int_ns; n_photons; n_fa; chi2_red
-data/FigS4/FigS4g.csv,Fig. S4g,E-cadherin per-FOV variance of junction lifetime,FOV,41,construct; fov_id; tau_variance_ns2
-data/FigS4/FigS4h.csv,Fig. S4h,alpha-catenin per-FOV variance of junction lifetime,FOV,37,construct; fov_id; tau_variance_ns2
-data/FigS4/FigS4i.csv,Fig. S4i,Radial junction lifetime for one representative image,ring,18,ring_distance_um; tau_int_ns
-data/FigS5/FigS5c.csv,Fig. S5c,Representative periphery lifetime profile for one alpha-catenin-WF cell (stretch assay methods),position on one cell,82,construct; condition; cell_id; arc_frac; arc_clock_deg; normal_box_px; tau_int_ns; photon_count
-data/FigS5/FigS5d.csv,Fig. S5d,"Representative four-region lifetime for one cell, T/B/L/R (stretch assay methods)",region on one cell,4,construct; condition; cell_id; region; tau_int_ns; n_samples
-data/FigS6/FigS6d.csv,Fig. S6d,Brood size per strain vs N2 control,worm/plate,132,strain; genotype; internal_strain_id; worm_id; year; brood_size
-data/FigS6/FigS6e.csv,Fig. S6e,Embryonic viability percent per strain vs N2 control,worm/plate,132,strain; genotype; internal_strain_id; worm_id; year; n_embryos; n_hatched; viability_percent
+data/Fig6/Fig6j.csv,Fig. 6j,"Spermathecal lifetime contrast (tau_Spt norm) on day 4, CeLam-WF labeled at L4 vs day 3, 2 experiments",worm,75,worm_id; experiment_date; labeling_schedule; also_imaged_day1; tau_spermatheca_ns; tau_adjacent_ROI2_ns; tau_adjacent_ROI3_ns; tau_Spt_norm_ns
+data/ExtDataFig1/ExtDataFig1b.csv,Extended Data Fig. 1b,"Relative brightness, 17 dyes x 3 constructs",FOV,153,construct; dye; rel_brightness
+data/ExtDataFig1/ExtDataFig1c.csv,Extended Data Fig. 1c,"Intensity-weighted mean lifetime, 17 dyes x 3 constructs",FOV,153,construct; dye; tau_int_ns
+data/ExtDataFig2/ExtDataFig2a.csv,Extended Data Fig. 2a,"Normalized absorption and emission spectra, 450-700 nm",wavelength x sample x spectrum,2406,wavelength_nm; sample; spectrum_type; normalized_value
+data/ExtDataFig2/ExtDataFig2b.csv,Extended Data Fig. 2b,"Photophysics summary table (peak abs/em, epsilon, QY, molecular brightness = epsilon*QY/1000)",sample,3,sample; peak_wl_abs_nm; peak_abs; epsilon_M-1cm-1; epsilon_SE; R2; back_calc_conc_uM; peak_wl_em_nm; QY_mean; QY_se; brightness_mM-1cm-1
+data/ExtDataFig2/ExtDataFig2c.csv,Extended Data Fig. 2c,"cpWHalo-554 reversibility trace (representative 1), first 60 s",time sample,1501,time_s; force_pN; intensity_raw; intensity_bgsub
+data/ExtDataFig2/ExtDataFig2d.csv,Extended Data Fig. 2d,"cpWHalo-554 reversibility trace (representative 2), first 30 s",time sample,1106,time_s; force_pN; intensity_raw; intensity_bgsub
+data/ExtDataFig3/ExtDataFig3c.csv,Extended Data Fig. 3c,"Representative pooled in-FA decay, NNLS fit, residual",time bin,132,time_ns; counts; fit; residual
+data/ExtDataFig3/ExtDataFig3c_meta.csv,Extended Data Fig. 3c,"Fit summary (tau_int, photons, n_FA, chi2) for the caption",fit,1,image; construct; treatment; tau_int_ns; n_photons; n_fa; chi2_red
+data/ExtDataFig4/ExtDataFig4g.csv,Extended Data Fig. 4g,E-cadherin per-FOV variance of junction lifetime,FOV,41,construct; fov_id; tau_variance_ns2
+data/ExtDataFig4/ExtDataFig4h.csv,Extended Data Fig. 4h,alpha-catenin per-FOV variance of junction lifetime,FOV,37,construct; fov_id; tau_variance_ns2
+data/ExtDataFig4/ExtDataFig4i.csv,Extended Data Fig. 4i,Radial junction lifetime for one representative image,ring,18,ring_distance_um; tau_int_ns
+data/ExtDataFig5/ExtDataFig5c.csv,Extended Data Fig. 5c,Representative periphery lifetime profile for one alpha-catenin-WF cell (stretch assay methods),position on one cell,82,construct; condition; cell_id; arc_frac; arc_clock_deg; normal_box_px; tau_int_ns; photon_count
+data/ExtDataFig5/ExtDataFig5d.csv,Extended Data Fig. 5d,"Representative four-region lifetime for one cell, T/B/L/R (stretch assay methods)",region on one cell,4,construct; condition; cell_id; region; tau_int_ns; n_samples
+data/ExtDataFig6/ExtDataFig6d.csv,Extended Data Fig. 6d,Brood size per strain vs N2 control,worm/plate,132,strain; genotype; internal_strain_id; worm_id; year; brood_size
+data/ExtDataFig6/ExtDataFig6e.csv,Extended Data Fig. 6e,Embryonic viability percent per strain vs N2 control,worm/plate,132,strain; genotype; internal_strain_id; worm_id; year; n_embryos; n_hatched; viability_percent
+data/ExtDataFig7/ExtDataFig7c.csv,Extended Data Fig. 7c,"Staged labeling: per-FOV in-FA lifetime, DMSO vs Bleb, treat->label vs label->treat, MEF Vcl-WF, JF549, 2 experiments",FOV,119,cell_type; construct; dye; experiment_date; schedule; treatment; image; tau_inFA_ns
+data/ExtDataFig7/ExtDataFig7d.csv,Extended Data Fig. 7d,"Staged labeling: per-FOV in-FA lifetime, DMSO vs Bleb, treat->label vs label->treat, MEF Vcl-WF, JF571, 2 experiments",FOV,113,cell_type; construct; dye; experiment_date; schedule; treatment; image; tau_inFA_ns
+data/ExtDataFig7/ExtDataFig7f.csv,Extended Data Fig. 7f,"Staged labeling: per-FOV in-FA lifetime, DMSO vs Bleb, treat->label vs label->treat, NIH-3T3 Vin-WF, JFX554, 3 experiments",FOV,146,cell_type; construct; dye; experiment_date; schedule; treatment; image; tau_inFA_ns
+data/ExtDataFig7/ExtDataFig7g.csv,Extended Data Fig. 7g,"Staged labeling: per-FOV in-FA lifetime, DMSO vs Bleb, treat->label vs label->treat, NIH-3T3 Vin-WF, JF549, 1 experiment",FOV,40,cell_type; construct; dye; experiment_date; schedule; treatment; image; tau_inFA_ns
+data/ExtDataFig7/ExtDataFig7h.csv,Extended Data Fig. 7h,"Staged labeling: per-FOV in-FA lifetime, DMSO vs Bleb, treat->label vs label->treat, NIH-3T3 Vin-WF, JF571, 1 experiment",FOV,40,cell_type; construct; dye; experiment_date; schedule; treatment; image; tau_inFA_ns
