@@ -1,6 +1,6 @@
 """
 Extended Data Fig. 6e: embryonic viability (%) of embryos laid 24-48 h post-L4 per
-strain, mean +/- SEM, Holm-Bonferroni-adjusted two-sided Welch's t-test vs
+strain, mean +/- SD, Holm-Bonferroni-adjusted two-sided Welch's t-test vs
 N2.
 
 viability_percent per worm = 100 * n_hatched / n_embryos, where n_embryos =
@@ -19,7 +19,7 @@ Writes figures/ExtDataFig6e.svg and .png.
 """
 import pandas as pd
 
-from _common import welch_holm_vs_control, bar_with_sem_panel, DATA_DIR
+from _common import welch_holm_vs_control, bar_with_sd_panel, DATA_DIR
 
 VALUE_COL = "viability_percent"
 
@@ -29,7 +29,7 @@ def main():
     p_adj = welch_holm_vs_control(df, VALUE_COL)
     for g, p in p_adj.items():
         print(f"{g}: Holm-adjusted p = {p:.4g}")
-    bar_with_sem_panel(
+    bar_with_sd_panel(
         df, VALUE_COL,
         ylabel="Embryonic viability (%)",
         ymax=100, tick_step=20,

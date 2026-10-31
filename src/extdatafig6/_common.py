@@ -19,12 +19,12 @@ STRAIN_ORDER = [
 CONTROL = "N2"
 
 
-def sem(vals):
+def sd(vals):
     import numpy as np
     vals = np.asarray(vals, dtype=float)
     if len(vals) < 2:
         return 0.0
-    return vals.std(ddof=1) / len(vals) ** 0.5
+    return vals.std(ddof=1)
 
 
 def fmt_p(p):
@@ -71,24 +71,28 @@ def welch_holm_vs_control(df, value_col, group_col="strain", control=CONTROL, or
     return dict(zip(others, p_adj))
 
 
-def bar_with_sem_panel(df, value_col, ylabel, ymax, tick_step, out_stub, p_adj,
-                       ax_w=1.18, ax_h=1.11):
-    """House-style bar + SEM panel matching the published Extended Data Fig. 6d/e layout:
-    gray bars, black error bars, Holm-adjusted p (or 'ref') printed inside
-    each bar, rotated strain labels with n= below the axis.
+def bar_with_sd_panel(df, value_col, ylabel, ymax, tick_step, out_stub, p_adj,
+                      ax_w=1.18, ax_h=1.11):
+    """House-style bar + SD panel matching the published Extended Data Fig. 6d/e layout:
+    gray bars (mean), black error bars (SD; SEM before 2026-10-31), Holm-adjusted
+    p (or 'ref') printed inside each bar, rotated strain labels with n= below
+    the axis.
     """
     groups = [g for g in STRAIN_ORDER if g in set(df["strain"])]
     means = [df.loc[df["strain"] == g, value_col].mean() for g in groups]
-    sems = [sem(df.loc[df["strain"] == g, value_col]) for g in groups]
+    sds = [sd(df.loc[df["strain"] == g, value_col]) for g in groups]
     ns = [int((df["strain"] == g).sum()) for g in groups]
 
     # Axes size measured from the published panel; margins are absolute. The
-    # bottom has to carry the 90-degree strain labels, which are long.
+    # bottom carries the 90-degree strain labels and is sized to the longest
+    # one after drawing. Strain and n share one line: a two-line label rotated
+    # 90 degrees is two columns wide and overlaps its neighbours at this bar
+    # spacing.
     left_in, right_in, top_in, bot_in = 0.34, 0.04, 0.04, 0.70
     fig_w, fig_h = ax_w + left_in + right_in, ax_h + top_in + bot_in
     fig, ax = plt.subplots(figsize=(fig_w, fig_h))
     x = range(len(groups))
-    ax.bar(x, means, yerr=sems, width=0.62, color="0.85", edgecolor="0.4",
+    ax.bar(x, means, yerr=sds, width=0.62, color="0.85", edgecolor="0.4",
            linewidth=0.8, error_kw=dict(elinewidth=0.8, capsize=2, capthick=0.8, ecolor="black"))
 
     for i, g in enumerate(groups):
@@ -96,13 +100,23 @@ def bar_with_sem_panel(df, value_col, ylabel, ymax, tick_step, out_stub, p_adj,
         ax.text(i, means[i] * 0.5, label, ha="center", va="center", rotation=90, fontsize=6)
 
     ax.set_xticks(list(x))
-    ax.set_xticklabels([f"{g}\n(n={n})" for g, n in zip(groups, ns)], rotation=90)
+    ax.set_xticklabels([f"{g} (n={n})" for g, n in zip(groups, ns)], rotation=90)
     ax.set_ylabel(ylabel, labelpad=1.5)
-    ax.set_ylim(0, ymax)
+    # SD bars can pass a bounded ceiling (viability, 100%); extend the axis so
+    # no bar or cap is clipped, but keep the ticks at or below ymax
+    top = max(ymax, max(m + s for m, s in zip(means, sds)) * 1.01)
+    ax.set_ylim(0, top)
     ax.set_yticks(range(0, ymax + 1, tick_step))
     ax.spines[["top", "right"]].set_visible(False)
 
     ax.tick_params(axis="both", labelsize=7, pad=1.5)
     fig.subplots_adjust(left=left_in / fig_w, right=1 - right_in / fig_w,
                         top=1 - top_in / fig_h, bottom=bot_in / fig_h)
+    # grow the bottom margin to the longest rotated label (+ tick pad and 0.03 in)
+    fig.canvas.draw()
+    lab_in = max(t.get_window_extent().height for t in ax.get_xticklabels()) / fig.dpi
+    bot_in = lab_in + 0.08
+    fig_h = ax_h + top_in + bot_in
+    fig.set_size_inches(fig_w, fig_h)
+    fig.subplots_adjust(top=1 - top_in / fig_h, bottom=bot_in / fig_h)
     save(fig, out_stub)
