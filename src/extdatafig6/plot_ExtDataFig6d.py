@@ -29,7 +29,7 @@ def main():
         ymax=180, tick_step=20,
         out_stub="ExtDataFig6d",
         p_adj=p_adj,
-        ax_w=1.18, ax_h=1.107,
+        ax_w=1.75, ax_h=1.107,
     )
 
 

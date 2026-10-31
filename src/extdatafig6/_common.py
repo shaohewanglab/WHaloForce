@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 from matplotlib import pyplot as plt
+from matplotlib.transforms import blended_transform_factory
 from scipy.stats import ttest_ind
 from statsmodels.stats.multitest import multipletests
 
@@ -72,35 +73,43 @@ def welch_holm_vs_control(df, value_col, group_col="strain", control=CONTROL, or
 
 
 def bar_with_sd_panel(df, value_col, ylabel, ymax, tick_step, out_stub, p_adj,
-                      ax_w=1.18, ax_h=1.11):
-    """House-style bar + SD panel matching the published Extended Data Fig. 6d/e layout:
-    gray bars (mean), black error bars (SD; SEM before 2026-10-31), Holm-adjusted
-    p (or 'ref') printed inside each bar, rotated strain labels with n= below
-    the axis.
+                      ax_w=1.75, ax_h=1.11):
+    """House-style bar + SD panel for Extended Data Fig. 6d/e: gray bars (mean),
+    black error bars (SD; SEM before 2026-10-31), Holm-adjusted p (or 'ref')
+    printed inside each bar at 7 pt, a horizontal gray n row under the axis
+    sharing one "n:" at the left, and rotated strain labels below it.
     """
     groups = [g for g in STRAIN_ORDER if g in set(df["strain"])]
     means = [df.loc[df["strain"] == g, value_col].mean() for g in groups]
     sds = [sd(df.loc[df["strain"] == g, value_col]) for g in groups]
     ns = [int((df["strain"] == g).sum()) for g in groups]
 
-    # Axes size measured from the published panel; margins are absolute. The
-    # bottom carries the 90-degree strain labels and is sized to the longest
-    # one after drawing. Strain and n share one line: a two-line label rotated
-    # 90 degrees is two columns wide and overlaps its neighbours at this bar
-    # spacing.
+    # Margins are absolute. The axes are wider than the original 1.18 in panel
+    # (and the bars wider, 0.62 -> 0.78) so the 7 pt p labels fit inside the
+    # bars. The bottom carries the n row plus the 90-degree strain labels and is
+    # sized to the longest label after drawing.
     left_in, right_in, top_in, bot_in = 0.34, 0.04, 0.04, 0.70
     fig_w, fig_h = ax_w + left_in + right_in, ax_h + top_in + bot_in
     fig, ax = plt.subplots(figsize=(fig_w, fig_h))
     x = range(len(groups))
-    ax.bar(x, means, yerr=sds, width=0.62, color="0.85", edgecolor="0.4",
+    ax.bar(x, means, yerr=sds, width=0.78, color="0.85", edgecolor="0.4",
            linewidth=0.8, error_kw=dict(elinewidth=0.8, capsize=2, capthick=0.8, ecolor="black"))
 
     for i, g in enumerate(groups):
         label = "ref" if g == CONTROL else fmt_p(p_adj[g])
-        ax.text(i, means[i] * 0.5, label, ha="center", va="center", rotation=90, fontsize=6)
+        ax.text(i, means[i] * 0.5, label, ha="center", va="center", rotation=90, fontsize=7)
 
     ax.set_xticks(list(x))
-    ax.set_xticklabels([f"{g} (n={n})" for g, n in zip(groups, ns)], rotation=90)
+    ax.set_xticklabels(groups, rotation=90)
+    # n row: horizontal, gray, one shared "n:" left of the first bar
+    trans = blended_transform_factory(ax.transData, ax.transAxes)
+    for i, n in enumerate(ns):
+        ax.annotate(f"{n}", xy=(i, 0.0), xycoords=trans, xytext=(0.0, -8.0),
+                    textcoords="offset points", ha="center", va="center",
+                    fontsize=7, color="0.45", annotation_clip=False)
+    ax.annotate("n:", xy=(0, 0.0), xycoords=trans, xytext=(-9.0, -8.0),
+                textcoords="offset points", ha="right", va="center", fontsize=7,
+                color="0.45", annotation_clip=False)
     ax.set_ylabel(ylabel, labelpad=1.5)
     # SD bars can pass a bounded ceiling (viability, 100%); extend the axis so
     # no bar or cap is clipped, but keep the ticks at or below ymax
@@ -110,12 +119,14 @@ def bar_with_sd_panel(df, value_col, ylabel, ymax, tick_step, out_stub, p_adj,
     ax.spines[["top", "right"]].set_visible(False)
 
     ax.tick_params(axis="both", labelsize=7, pad=1.5)
+    ax.tick_params(axis="x", pad=14.0)          # strain labels start below the n row
     fig.subplots_adjust(left=left_in / fig_w, right=1 - right_in / fig_w,
                         top=1 - top_in / fig_h, bottom=bot_in / fig_h)
-    # grow the bottom margin to the longest rotated label (+ tick pad and 0.03 in)
+    # grow the bottom margin to reach the lowest strain label (+ 0.03 in)
     fig.canvas.draw()
-    lab_in = max(t.get_window_extent().height for t in ax.get_xticklabels()) / fig.dpi
-    bot_in = lab_in + 0.08
+    ax_y0 = ax.get_window_extent().y0
+    lab_y0 = min(t.get_window_extent().y0 for t in ax.get_xticklabels())
+    bot_in = (ax_y0 - lab_y0) / fig.dpi + 0.03
     fig_h = ax_h + top_in + bot_in
     fig.set_size_inches(fig_w, fig_h)
     fig.subplots_adjust(top=1 - top_in / fig_h, bottom=bot_in / fig_h)

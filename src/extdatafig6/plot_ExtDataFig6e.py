@@ -35,7 +35,7 @@ def main():
         ymax=100, tick_step=20,
         out_stub="ExtDataFig6e",
         p_adj=p_adj,
-        ax_w=1.215, ax_h=1.11,
+        ax_w=1.75, ax_h=1.11,
     )
 
 
