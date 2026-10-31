@@ -175,6 +175,9 @@ python examples/segmentation/check_segmentation.py     # validates the committed
   Fig. 6b's p-values are reported in its legend rather than drawn on the panel
   and are computed by `src/fig6/stats_Fig6b.py` (writes `Fig6b_stats.csv`).
   Fig. 6j is a single comparison (two-sided Mann-Whitney U, no correction).
+  Fig. 6f reports Pearson r with a 95% percentile CI from 50,000 whole-worm
+  bootstrap resamples (seed 20261029), because 11 of the 42 worms contribute
+  both spermathecae; no independent-point p value is shown.
   Extended Data Fig. 6d and 6e deliberately keep Welch's t-test: both are
   ceiling-bounded measurements whose N2 reference piles up at the ceiling, where
   a rank test reports significance for biologically negligible shifts -- see the

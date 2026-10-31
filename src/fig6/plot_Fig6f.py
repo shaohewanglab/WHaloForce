@@ -6,6 +6,13 @@ spermatheca (53 spermathecae from 42 worms).
 Reads Fig6f.csv (relative path) and regenerates the scatter with a linear fit
 line and Pearson correlation.
 
+The two spermathecae of one worm are not independent (11 worms contribute
+both), so no independent-point Pearson p value is shown. Uncertainty in r is
+a 95% percentile confidence interval from 50,000 whole-worm bootstrap
+resamples (seed 20261029): the 42 worm IDs are resampled with replacement and
+every measurement of a sampled worm is kept together. The interval is printed
+here and reported in the figure legend.
+
 Run:
     python plot_Fig6f.py
 
@@ -22,22 +29,41 @@ from scipy.stats import linregress, pearsonr
 
 # --- house style ---
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "common"))
-from style import apply_style, save, sup_text, format_p, DATA_DIR, TAU  # noqa: E402
+from style import apply_style, save, DATA_DIR, TAU  # noqa: E402
 
 apply_style()
 
 
 X_COL = "mean_ovulations_per_spermatheca"
 Y_COL = "tau_Spt_norm_ns"
+WORM_COL = "worm_id"
+N_BOOT = 50_000
+SEED = 20261029
+
+
+def worm_bootstrap_r(x, y, worms, n_boot=N_BOOT, seed=SEED):
+    """95% percentile CI of Pearson r, resampling whole worms with replacement
+    (all spermathecae of a sampled worm kept together)."""
+    ids = np.unique(worms)
+    rows = [np.flatnonzero(worms == w) for w in ids]
+    rng = np.random.default_rng(seed)
+    rs = np.empty(n_boot)
+    for b in range(n_boot):
+        idx = np.concatenate([rows[k] for k in rng.integers(0, ids.size, ids.size)])
+        rs[b] = np.corrcoef(x[idx], y[idx])[0, 1]
+    lo, hi = np.percentile(rs, [2.5, 97.5])
+    return lo, hi, ids.size
 
 
 def main():
     df = pd.read_csv(DATA_DIR / "Fig6" / "Fig6f.csv")
     x = df[X_COL].to_numpy(dtype=float)
     y = df[Y_COL].to_numpy(dtype=float)
+    worms = df[WORM_COL].astype(str).to_numpy()
 
-    r, p = pearsonr(x, y)
+    r, _ = pearsonr(x, y)
     fit = linregress(x, y)
+    lo, hi, n_worms = worm_bootstrap_r(x, y, worms)
 
     fig, ax = plt.subplots(figsize=(1.55, 2.1))
     # translucent dots: at n = 53 the low-ovulation columns overlap heavily, and
@@ -58,22 +84,15 @@ def main():
     ax.spines[["top", "right"]].set_visible(False)
     ax.tick_params(axis="both", labelsize=7, pad=1.5)
 
-    # n / r / p in the empty upper-left corner. Two lines: on a 1.55 in panel the
-    # single published line does not fit. The p exponent is built from plain text
-    # runs so the whole string stays editable in the SVG.
-    base, exp = format_p(p)
+    # n / r in the empty upper-left corner (the worm-bootstrap CI is in the legend)
     ax.text(0.03, 0.99, f"n = {len(x)}   r = {r:.2f}", transform=ax.transAxes,
             ha="left", va="top", fontsize=7)
-    if exp is None:
-        ax.text(0.03, 0.895, base, transform=ax.transAxes, ha="left", va="top",
-                fontsize=7)
-    else:
-        sup_text(ax, 0.03, 0.895, base, exp, fontsize=7, ha="left", va="top",
-                 xycoords="axes fraction", pad_pt=0.0)
 
     fig.subplots_adjust(left=0.30, right=0.985, top=0.985, bottom=0.135)
     save(fig, "Fig6f")
-    print(f"Pearson r = {r:.4f}, p = {p:.4g}, n = {len(x)}")
+    print(f"Pearson r = {r:.4f}, n = {len(x)} spermathecae from {n_worms} worms; "
+          f"95% CI {lo:.3f}-{hi:.3f} ({N_BOOT:,} whole-worm bootstrap resamples, "
+          f"seed {SEED})")
 
 
 if __name__ == "__main__":
