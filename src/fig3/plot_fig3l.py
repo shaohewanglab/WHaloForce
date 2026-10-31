@@ -6,9 +6,12 @@ Reads data/Fig3/Fig3l.csv (one row per field of view) by a relative path and
 regenerates the three-panel figure: each FOV is one jittered point, overlaid
 with a box spanning the 25th-75th percentile (median line) and Tukey
 whiskers (1.5x interquartile range). Statistics are two-sided Mann-Whitney
-U, raw (not multiple-comparison corrected), computed for all three condition
-pairs; before-vs-stretched and stretched-vs-latA are annotated on the plot,
-and all three raw p values are printed to the console.
+U for the two displayed comparisons, before vs stretched and stretched vs
+stretched + LatA, with Holm-Bonferroni correction applied separately within
+each construct across those two comparisons. The plot shows the Holm-adjusted
+p values; raw and adjusted values are printed to the console. The undisplayed
+before vs LatA comparison is not part of any Holm family; its raw p is printed
+for reference only.
 
 Run:
     python plot_fig3l.py
@@ -40,6 +43,17 @@ CONDITION_LABELS = {"before": "Before", "stretched": "Stretched", "latA": "LatA"
 ALL_PAIRS = [("before", "stretched"), ("stretched", "latA"), ("before", "latA")]
 PLOTTED_PAIRS = [("before", "stretched"), ("stretched", "latA")]
 COLORS = {"aCat-WF": "#2c7fb8", "aCat-cpH": "#e6842e", "aCat-C-WF": "#d62728"}
+
+
+def holm(pvals):
+    p = np.asarray(pvals, float)
+    order = np.argsort(p)
+    adj = np.empty(p.size)
+    run = 0.0
+    for i, idx in enumerate(order):
+        run = max(run, (p.size - i) * p[idx])
+        adj[idx] = min(run, 1.0)
+    return adj
 
 
 def pctl_box(ax, x, vals, color, width=0.25):
@@ -82,10 +96,13 @@ def main():
         for a, b in ALL_PAIRS:
             _, p = mannwhitneyu(groups[a], groups[b], alternative="two-sided")
             raw_p[(a, b)] = p
-        print(f"{construct}: raw (uncorrected) Mann-Whitney p values "
-              f"before-vs-stretched={raw_p[('before','stretched')]:.3g}, "
-              f"stretched-vs-latA={raw_p[('stretched','latA')]:.3g}, "
-              f"before-vs-latA={raw_p[('before','latA')]:.3g}")
+        # Holm family: the two displayed comparisons of this construct only
+        adj_p = dict(zip(PLOTTED_PAIRS, holm([raw_p[pr] for pr in PLOTTED_PAIRS])))
+        for a, b in PLOTTED_PAIRS:
+            print(f"{construct}: {a} vs {b}: MWU p={raw_p[(a, b)]:.3g}, "
+                  f"Holm p={adj_p[(a, b)]:.3g}")
+        print(f"{construct}: before vs latA (not displayed, not in the Holm family): "
+              f"MWU p={raw_p[('before', 'latA')]:.3g}")
 
         for i, cond in enumerate(CONDITION_ORDER):
             vals = groups[cond]
@@ -103,7 +120,7 @@ def main():
                     color="#333333", lw=0.6)
             # stacked ("p =" over the value) so the two labels in a panel do not
             # collide at this width
-            p_text(ax, (x0 + x1) / 2, y_brk, raw_p[(a, b)], fontsize=7, stacked=True)
+            p_text(ax, (x0 + x1) / 2, y_brk, adj_p[(a, b)], fontsize=7, stacked=True)
 
         ax.set_xticks(range(len(CONDITION_ORDER)))
         ax.set_xticklabels([CONDITION_LABELS[c] for c in CONDITION_ORDER], rotation=30, ha="right")
