@@ -29,7 +29,7 @@ they chain together and the per-dataset invocations.
   The `taus` array in `flim_roi_fit/input/*.npz` is a real LAS X output.
 * **Cellpose model fine-tuning** -- done in the Cellpose GUI on hand-corrected
   crops; the resulting weights are in the raw-data deposit.
-* **Optical-tweezers force traces** (Fig. 1f-j, S2c, S2d) -- extracted from LUMICKS
+* **Optical-tweezers force traces** (Fig. 1f-j, ED2c, ED2d) -- extracted from LUMICKS
   C-Trap HDF5 upstream of this package. The committed CSVs *are* the extracted
   traces, so the panel scripts already exercise everything this package owns.
   `src/fig1/QU_transition_analysis.py` documents the dwell-time analysis.

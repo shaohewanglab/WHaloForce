@@ -4,7 +4,7 @@ Structure panels are ray-traced renders, not scripted plots. This is the minimal
 command reference used to make them. Input structures (AlphaFold3 predictions and
 RCSB crystal structures) and the saved PyMOL sessions (.pse) are archived with
 the raw data (see RAW_DATA.md). Panels: Fig. 1b (cpWHalo vs HaloTag7-JF669, PDB
-8SW8), Fig. S4b (Ecad-WF), Fig. S4e (aCat-WF), Fig. S6b (mouse vinculin, worm DEB-1).
+8SW8), Extended Data Fig. 4b (Ecad-WF), Extended Data Fig. 4e (aCat-WF), Extended Data Fig. 6b (mouse vinculin, worm DEB-1).
 
 ## pLDDT coloring (AlphaFold confidence is stored in the B-factor column)
 ```pml

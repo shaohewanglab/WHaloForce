@@ -10,7 +10,7 @@ Two groups of checks:
   output; see the README in each folder. A check whose optional dependencies are
   absent reports SKIP, not a failure.
 
-The force-trace extraction for Fig. 1f-j and S2c/S2d has no example: those traces
+The force-trace extraction for Fig. 1f-j and ED2c/ED2d has no example: those traces
 were extracted from LUMICKS C-Trap HDF5 upstream of this package, and the
 committed CSVs are the extracted traces themselves (see
 docs/NON_SCRIPTABLE_STEPS.md).

@@ -1,12 +1,12 @@
-"""Figure S4i: radial profile of junction lifetime (intensity-weighted mean
+"""Extended Data Fig. 4i: radial profile of junction lifetime (intensity-weighted mean
 fluorescence lifetime, tau_int, ns) from the rosette center for the single
-representative E-cadherin FOV shown in Figure S4f (190-15-apical-extrusion).
+representative E-cadherin FOV shown in Extended Data Fig. 4f (190-15-apical-extrusion).
 
 Each point is the mean lifetime of junctional pixels within a 2-um-thick radial
 ring; point color encodes distance from the rosette center (plasma colormap),
-matching the color coding used in S4f.
+matching the color coding used in ED4f.
 
-Reads data/FigS4/FigS4i.csv and writes figures/FigS4i.svg and .png.
+Reads data/ExtDataFig4/ExtDataFig4i.csv and writes figures/ExtDataFig4i.svg and .png.
 """
 
 import sys
@@ -28,7 +28,7 @@ FIG_W, FIG_H = AX_W + LEFT_IN + RIGHT_IN, AX_H + TOP_IN + BOT_IN
 
 
 def main():
-    df = pd.read_csv(DATA_DIR / "FigS4" / "FigS4i.csv").sort_values("ring_distance_um")
+    df = pd.read_csv(DATA_DIR / "ExtDataFig4" / "ExtDataFig4i.csv").sort_values("ring_distance_um")
     r = df["ring_distance_um"].to_numpy()
     tau = df["tau_int_ns"].to_numpy()
 
@@ -36,14 +36,14 @@ def main():
     ax.plot(r, tau, "-", color="0.6", lw=0.8, zorder=1)
     sc = ax.scatter(r, tau, c=r, cmap="plasma", s=16, edgecolors="black",
                     linewidths=0.3, zorder=3)
-    # no colorbar here: the published panel keys colour to the one under Fig. S4f
+    # no colorbar here: the published panel keys colour to the one under Extended Data Fig. 4f
     ax.set_xlabel("Distance from rosette center (µm)", labelpad=1.5)
     ax.set_ylabel(f"Junction {TAU} (ns)", labelpad=1.5)
     ax.spines[["top", "right"]].set_visible(False)
     ax.tick_params(axis="both", labelsize=7, pad=1.5)
     fig.subplots_adjust(left=LEFT_IN / FIG_W, right=1 - RIGHT_IN / FIG_W,
                         top=1 - TOP_IN / FIG_H, bottom=BOT_IN / FIG_H)
-    save(fig, "FigS4i")
+    save(fig, "ExtDataFig4i")
 
 
 if __name__ == "__main__":

@@ -1,10 +1,10 @@
-"""Figure S2a: normalized absorption (solid) and emission (dashed) spectra of
+"""Extended Data Fig. 2a: normalized absorption (solid) and emission (dashed) spectra of
 cpHalo-JFX554-HTL, cpWHalo-JFX554-HTL, and JFX554-HTL.
 
 Absorption is normalized to the global peak absorbance across the three
 samples; emission is normalized to the global peak emission intensity — the
 same normalization as the original run_analysis.py combined abs/em panel.
-Reads data/FigS2/FigS2a.csv and writes figures/FigS2a.svg and .png.
+Reads data/ExtDataFig2/ExtDataFig2a.csv and writes figures/ExtDataFig2a.svg and .png.
 """
 
 import sys
@@ -25,7 +25,7 @@ AX_W, AX_H = 5.388, 2.015
 LEFT_IN, RIGHT_IN, TOP_IN, BOT_IN = 0.36, 0.09, 0.05, 0.32
 FIG_W, FIG_H = AX_W + LEFT_IN + RIGHT_IN, AX_H + TOP_IN + BOT_IN
 
-# Sampled from the published Fig. S2a: cpHalo is black, cpWHalo blue, free dye
+# Sampled from the published Extended Data Fig. 2a: cpHalo is black, cpWHalo blue, free dye
 # orange. The earlier mapping was shifted by one (and used a green that does not
 # appear in the figure at all).
 COLORS = {
@@ -38,7 +38,7 @@ STYLE = {"absorption": "-", "emission": "--"}
 
 
 def main():
-    df = pd.read_csv(DATA_DIR / "FigS2" / "FigS2a.csv")
+    df = pd.read_csv(DATA_DIR / "ExtDataFig2" / "ExtDataFig2a.csv")
 
     fig, ax = plt.subplots(figsize=(FIG_W, FIG_H))
     for sample in ORDER:
@@ -67,7 +67,7 @@ def main():
     ax.tick_params(axis="both", labelsize=7, pad=1.5)
     fig.subplots_adjust(left=LEFT_IN / FIG_W, right=1 - RIGHT_IN / FIG_W,
                         top=1 - TOP_IN / FIG_H, bottom=BOT_IN / FIG_H)
-    save(fig, "FigS2a")
+    save(fig, "ExtDataFig2a")
 
 
 if __name__ == "__main__":

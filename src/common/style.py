@@ -35,7 +35,7 @@ JUNCTION_COLORS = {"WF": "#2c7fb8", "cpH": "#e6842e", "C-WF": "#d62728"}
 
 # NOTE: several panels are deliberately monochrome in the published figures and
 # must stay that way -- Fig. 5c (gray boxes and dots), Fig. 6d/6f/6h, Fig. 4e-g
-# data, and Fig. S6d/S6e (gray bars). Colored palettes exist in the working-folder
+# data, and Extended Data Fig. 6d/ED6e (gray bars). Colored palettes exist in the working-folder
 # scripts for some of these (a Dark2 by-dataset scheme for the MEF inhibitor
 # panel, per-strain hues for the worm panels), but those were exploratory and did
 # NOT make it into the figures. Verified against the published PDF; do not

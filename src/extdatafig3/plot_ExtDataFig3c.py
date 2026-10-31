@@ -1,8 +1,8 @@
-"""Figure S3c: representative pooled in-FA photon-decay with the NNLS fit and
+"""Extended Data Fig. 3c: representative pooled in-FA photon-decay with the NNLS fit and
 weighted residuals underneath (Vin-WF, one DMSO field of view).
 
-Reads data/FigS3/FigS3c.csv (the exported decay curve) and FigS3c_meta.csv (the
-fit summary for the title), and writes figures/FigS3c.svg and .png.
+Reads data/ExtDataFig3/ExtDataFig3c.csv (the exported decay curve) and ExtDataFig3c_meta.csv (the
+fit summary for the title), and writes figures/ExtDataFig3c.svg and .png.
 
 The decay curve was exported once from the raw photon data (see
 docs/NON_SCRIPTABLE_STEPS.md); this script only renders the committed CSV.
@@ -30,8 +30,8 @@ FIG_H = AX_H0 + AX_H1 + GAP_IN + TOP_IN + BOT_IN
 
 
 def main():
-    d = pd.read_csv(DATA_DIR / "FigS3" / "FigS3c.csv")
-    m = pd.read_csv(DATA_DIR / "FigS3" / "FigS3c_meta.csv").iloc[0]
+    d = pd.read_csv(DATA_DIR / "ExtDataFig3" / "ExtDataFig3c.csv")
+    m = pd.read_csv(DATA_DIR / "ExtDataFig3" / "ExtDataFig3c_meta.csv").iloc[0]
 
     fig, (ax0, ax1) = plt.subplots(
         2, 1, figsize=(FIG_W, FIG_H), sharex=True,
@@ -63,7 +63,7 @@ def main():
     fig.subplots_adjust(left=LEFT_IN / FIG_W, right=1 - RIGHT_IN / FIG_W,
                         top=1 - TOP_IN / FIG_H, bottom=BOT_IN / FIG_H,
                         hspace=GAP_IN / ((AX_H0 + AX_H1) / 2))
-    save(fig, "FigS3c")
+    save(fig, "ExtDataFig3c")
 
 
 if __name__ == "__main__":

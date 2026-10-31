@@ -1,13 +1,13 @@
-"""Figure S4g: E-cadherin per-FOV SD of per-junction lifetime.
+"""Extended Data Fig. 4h: alpha-catenin per-FOV SD of per-junction lifetime.
 
 Each dot is one FOV: the within-FOV standard deviation (ns) of the per-junction
 intensity-weighted mean lifetime (tau_int) across its junction segments
 (segments filtered to >=2 um and >=5000 photons). Box per construct, log y.
 Significance is tested on the per-FOV SDs, each non-WF construct vs the
-Ecad-WF reference, Mann-Whitney U with Holm-Bonferroni correction; adjusted
+aCat-WF reference, Mann-Whitney U with Holm-Bonferroni correction; adjusted
 p values are printed.
 
-Reads data/FigS4/FigS4g.csv (one row per FOV) and writes figures/FigS4g.svg
+Reads data/ExtDataFig4/ExtDataFig4h.csv (one row per FOV) and writes figures/ExtDataFig4h.svg
 and .png.
 """
 
@@ -24,16 +24,16 @@ from style import apply_style, save, DATA_DIR, p_text, TAU  # noqa: E402
 
 apply_style()
 
-ORDER = ["Ecad-WF", "Ecad-cpH", "Ecad-C-WF"]
-REF = "Ecad-WF"
-COLORS = {"Ecad-WF": "#2c7fb8", "Ecad-cpH": "#e6842e", "Ecad-C-WF": "#d62728"}
-CSV = "FigS4g.csv"
-PROT = "Ecad"
-STEM = "FigS4g"
+ORDER = ["aCat-WF", "aCat-cpH", "aCat-C-WF"]
+REF = "aCat-WF"
+COLORS = {"aCat-WF": "#2c7fb8", "aCat-cpH": "#e6842e", "aCat-C-WF": "#d62728"}
+CSV = "ExtDataFig4h.csv"
+PROT = "aCat"
+STEM = "ExtDataFig4h"
 
 # Axes size measured from the published panel; margins are absolute so the
 # canvas can be swapped in directly.
-AX_W, AX_H = 1.045, 1.292
+AX_W, AX_H = 1.065, 1.292
 LEFT_IN, RIGHT_IN, TOP_IN, BOT_IN = 0.46, 0.03, 0.04, 0.32
 FIG_W, FIG_H = AX_W + LEFT_IN + RIGHT_IN, AX_H + TOP_IN + BOT_IN
 
@@ -50,7 +50,7 @@ def holm(pvals):
 
 
 def main():
-    df = pd.read_csv(DATA_DIR / "FigS4" / CSV)
+    df = pd.read_csv(DATA_DIR / "ExtDataFig4" / CSV)
     vals, ns = [], []
     for c in ORDER:
         v = np.sqrt(df[df.construct == c]["tau_variance_ns2"].to_numpy())

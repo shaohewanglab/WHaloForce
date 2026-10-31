@@ -1,9 +1,9 @@
-"""Figure S2c: representative cpWHalo-JFX554 reversibility trace.
+"""Extended Data Fig. 2c: representative cpWHalo-JFX554 reversibility trace.
 
 Force (left, black) and fluorescence intensity (right, red) versus time for a
 single tether cycled through force, showing reversible quenching/unquenching.
 Smoothed-only display, matching the original force_trace_simple_cli.py output.
-Reads data/FigS2/FigS2c.csv and writes figures/FigS2c.svg and .png.
+Reads data/ExtDataFig2/ExtDataFig2c.csv and writes figures/ExtDataFig2c.svg and .png.
 """
 
 import sys
@@ -40,7 +40,7 @@ def _smooth(x, window):
 
 
 def plot_trace(csv_name, stem, smoothed_only=True):
-    df = pd.read_csv(DATA_DIR / "FigS2" / csv_name)
+    df = pd.read_csv(DATA_DIR / "ExtDataFig2" / csv_name)
     t = df["time_s"].to_numpy(float)
     force = df["force_pN"].to_numpy(float)
     inten = df["intensity_raw"].to_numpy(float)
@@ -76,7 +76,7 @@ def plot_trace(csv_name, stem, smoothed_only=True):
 
 
 def main():
-    plot_trace("FigS2c.csv", "FigS2c")
+    plot_trace("ExtDataFig2c.csv", "ExtDataFig2c")
 
 
 if __name__ == "__main__":

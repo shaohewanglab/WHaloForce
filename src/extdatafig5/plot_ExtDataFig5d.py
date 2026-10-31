@@ -1,14 +1,14 @@
 """
-Fig. S5d: representative single-cell four-region lifetimes (top/bottom/left/
-right), for the same stretched aCat-WF cell as Fig. S5c.
+Extended Data Fig. 5d: representative single-cell four-region lifetimes (top/bottom/left/
+right), for the same stretched aCat-WF cell as Extended Data Fig. 5c.
 
-Reads data/FigS5/FigS5d.csv by a relative path and regenerates the bar plot.
+Reads data/ExtDataFig5/ExtDataFig5d.csv by a relative path and regenerates the bar plot.
 No statistics (single cell, illustrative panel).
 
 Run:
-    python plot_figS5d.py
+    python plot_ExtDataFig5d.py
 
-Writes FigS5d.svg and FigS5d.png to ../figures.
+Writes ExtDataFig5d.svg and ExtDataFig5d.png to ../figures.
 """
 
 from pathlib import Path
@@ -29,7 +29,7 @@ apply_style()
 FIG_W, FIG_H = 3.2, 2.2
 LEFT_IN, RIGHT_IN, TOP_IN, BOT_IN = 0.34, 0.05, 0.17, 0.30
 
-DATA_CSV = DATA_DIR / "FigS5" / "FigS5d.csv"
+DATA_CSV = DATA_DIR / "ExtDataFig5" / "ExtDataFig5d.csv"
 
 REGION_ORDER = ["T", "R", "B", "L"]
 REGION_LABEL = {"T": "top", "R": "right", "B": "bottom", "L": "left"}
@@ -70,7 +70,7 @@ def main():
 
     fig.subplots_adjust(left=LEFT_IN / FIG_W, right=1 - RIGHT_IN / FIG_W,
                         top=1 - TOP_IN / FIG_H, bottom=BOT_IN / FIG_H)
-    save(fig, "FigS5d")
+    save(fig, "ExtDataFig5d")
 
 
 if __name__ == "__main__":

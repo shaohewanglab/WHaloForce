@@ -1,4 +1,4 @@
-"""Shared plotting helpers for Fig. S6d and Fig. S6e (house style)."""
+"""Shared plotting helpers for Extended Data Fig. 6d and Extended Data Fig. 6e (house style)."""
 import sys
 from pathlib import Path
 
@@ -40,10 +40,10 @@ def welch_holm_vs_control(df, value_col, group_col="strain", control=CONTROL, or
     Holm-Bonferroni adjustment across the (n_groups - 1) comparisons.
 
     WHY WELCH AND NOT MANN-WHITNEY U: the Fig. 6 panels were unified onto
-    Mann-Whitney U with Holm correction; Fig. S6d and S6e deliberately were
+    Mann-Whitney U with Holm correction; Extended Data Fig. 6d and ED6e deliberately were
     not, and keep Welch's t-test. Both carry bounded, ceiling-limited
     measurements -- brood size and embryonic viability (%) -- and the N2
-    reference piles up against that ceiling: 17 of 24 N2 worms in FigS6e.csv
+    reference piles up against that ceiling: 17 of 24 N2 worms in ExtDataFig6e.csv
     have viability of exactly 100.00%. Because a rank test sees only order, a
     strain sitting consistently at 98-99% ranks below almost every N2 worm and
     is reported as a strong shift: Mann-Whitney U with Holm gives CeVin-WF
@@ -73,7 +73,7 @@ def welch_holm_vs_control(df, value_col, group_col="strain", control=CONTROL, or
 
 def bar_with_sem_panel(df, value_col, ylabel, ymax, tick_step, out_stub, p_adj,
                        ax_w=1.18, ax_h=1.11):
-    """House-style bar + SEM panel matching the published Fig. S6d/E layout:
+    """House-style bar + SEM panel matching the published Extended Data Fig. 6d/e layout:
     gray bars, black error bars, Holm-adjusted p (or 'ref') printed inside
     each bar, rotated strain labels with n= below the axis.
     """

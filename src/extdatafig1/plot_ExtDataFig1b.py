@@ -1,16 +1,16 @@
-"""Figure S1b: relative brightness of HaloTag vs cpHalo vs cpWHalo across 17 JF
+"""Extended Data Fig. 1b: relative brightness of HaloTag vs cpHalo vs cpWHalo across 17 JF
 dyes in live HEK293 cells.
 
 Relative brightness (rel_brightness) is the dye-channel intensity normalized to
 the co-expressed mTurquoise2 reference: for each FOV both the dye channel
 (HyD X 4) and the mTq2 channel (HyD X 2) are normalized as
 Sum_Intensity_kCnts * speed_Hz / power / accumulation, and
-rel_brightness = dye_int / mTq2_int. See data/FigS1/FigS1b.csv (values
+rel_brightness = dye_int / mTq2_int. See data/ExtDataFig1/ExtDataFig1b.csv (values
 pre-computed from the source spreadsheet).
 
 Per-FOV points (jittered) with mean +/- SD, faceted per dye (ordered by dye
-excitation maximum), log y axis. Reads data/FigS1/FigS1b.csv and writes
-figures/FigS1b.svg and .png.
+excitation maximum), log y axis. Reads data/ExtDataFig1/ExtDataFig1b.csv and writes
+figures/ExtDataFig1b.svg and .png.
 """
 
 import sys
@@ -41,7 +41,7 @@ LEFT_IN, RIGHT_IN, TOP_IN, BOT_IN = 0.47, 0.05, 0.05, 0.45
 
 def facet_panel(csv_name, value, ylabel, stem, logy,
                 ax_w=0.637, ax_h=0.983, wgap=0.3345, hgap=0.4305):
-    df = pd.read_csv(DATA_DIR / "FigS1" / csv_name)
+    df = pd.read_csv(DATA_DIR / "ExtDataFig1" / csv_name)
     dyes = dye_order(df["dye"].unique())
     ncol = 6
     nrow = int(np.ceil(len(dyes) / ncol))
@@ -92,7 +92,7 @@ def facet_panel(csv_name, value, ylabel, stem, logy,
 
 
 def main():
-    facet_panel("FigS1b.csv", VALUE, YLABEL, "FigS1b", logy=True)
+    facet_panel("ExtDataFig1b.csv", VALUE, YLABEL, "ExtDataFig1b", logy=True)
 
 
 if __name__ == "__main__":

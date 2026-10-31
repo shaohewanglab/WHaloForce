@@ -1,8 +1,8 @@
 """
-Fig. S5c: representative single-cell junction lifetime profile around the cell
+Extended Data Fig. 5c: representative single-cell junction lifetime profile around the cell
 periphery (walking-box sampling), for one stretched aCat-WF cell.
 
-Reads data/FigS5/FigS5c.csv by a relative path and regenerates the line plot:
+Reads data/ExtDataFig5/ExtDataFig5c.csv by a relative path and regenerates the line plot:
 the raw per-sample profile plus a circular moving-average smooth line, against
 **arc position in degrees** (0-360, clockwise from the top-point reference), the
 same convention Fig. 3k plots on its x axis. The CSV already carries the angle
@@ -18,9 +18,9 @@ derived from the median angular step of the data. This cell is sampled every
 aid computed here, not a stored column.
 
 Run:
-    python plot_figS5c.py
+    python plot_ExtDataFig5c.py
 
-Writes FigS5c.svg and FigS5c.png to ../figures.
+Writes ExtDataFig5c.svg and ExtDataFig5c.png to ../figures.
 """
 
 from pathlib import Path
@@ -36,7 +36,7 @@ from style import apply_style, save, DATA_DIR, TAU  # noqa: E402
 
 apply_style()
 
-DATA_CSV = DATA_DIR / "FigS5" / "FigS5c.csv"
+DATA_CSV = DATA_DIR / "ExtDataFig5" / "ExtDataFig5c.csv"
 
 RAW_C = "#f4a09c"
 SMOOTH_C = "#8b1a1a"
@@ -68,7 +68,7 @@ def main():
     step_deg = float(np.median(np.diff(x)))
     window = max(3, int(round(SMOOTH_DEG / step_deg)) | 1)
     y_smooth = circular_moving_average(y, window)
-    print(f"[FigS5c] median step {step_deg:.3f} deg -> {SMOOTH_DEG:.0f} deg "
+    print(f"[ExtDataFig5c] median step {step_deg:.3f} deg -> {SMOOTH_DEG:.0f} deg "
           f"smoothing window = {window} samples ({len(x)} samples total)")
 
     fig, ax = plt.subplots(figsize=(FIG_W, FIG_H))
@@ -100,7 +100,7 @@ def main():
 
     fig.subplots_adjust(left=LEFT_IN / FIG_W, right=1 - RIGHT_IN / FIG_W,
                         top=1 - TOP_IN / FIG_H, bottom=BOT_IN / FIG_H)
-    save(fig, "FigS5c")
+    save(fig, "ExtDataFig5c")
 
 
 if __name__ == "__main__":

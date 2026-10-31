@@ -69,18 +69,18 @@ examples/segmentation/ ships one mask with its intensity image and validates it;
 see that folder's README.
 
 ## Structure renders (PyMOL and AlphaFold3)
-Structure panels (Fig. 1b, S4b, S4e, S6b) are ray-traced renders made in PyMOL
+Structure panels (Fig. 1b, ED4b, ED4e, ED6b) are ray-traced renders made in PyMOL
 from AlphaFold3 predictions and RCSB PDB crystal structures. See
 docs/pymol_render_notes.md for the minimal command reference and the input
 structure files. These are images, not quantitative plots; no source-data CSV
 applies.
 
-## Sequence alignment (Fig. S6a)
+## Sequence alignment (Extended Data Fig. 6a)
 The vinculin linker alignment was made in Jalview using the T-Coffee method,
 colored by the ClustalX scheme. NCBI accession numbers are listed in the figure
 legend. This is a GUI step; no code is provided.
 
-## Super-resolution imaging and processing (Fig. 5e)
+## Super-resolution imaging and processing (Fig. 5f)
 The single-z super-resolution immunofluorescence images were acquired on a
 separate instrument: a home-built line-rescan confocal system, to be fully
 described in a forthcoming manuscript. A 60X 1.2 NA water-immersion objective
@@ -97,7 +97,7 @@ https://github.com/eguomin/regDeconProject
 This panel is a representative image, not a quantitative plot; no source-data
 CSV applies.
 
-## Single-molecule optical-tweezers force spectroscopy (Fig. 1f-j, S2c, S2d)
+## Single-molecule optical-tweezers force spectroscopy (Fig. 1f-j, ED2c, ED2d)
 Force and confocal-fluorescence data were acquired on a LUMICKS C-Trap (optical
 tweezers combined with confocal microscopy) using a five-channel microfluidic
 flow cell, and exported as HDF5 (.h5).

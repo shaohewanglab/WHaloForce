@@ -1,5 +1,5 @@
 """
-Fig. S6e: embryonic viability (%) of embryos laid 24-48 h post-L4 per
+Extended Data Fig. 6e: embryonic viability (%) of embryos laid 24-48 h post-L4 per
 strain, mean +/- SEM, Holm-Bonferroni-adjusted two-sided Welch's t-test vs
 N2.
 
@@ -13,9 +13,9 @@ test reports strong significance for ~1 percentage-point shifts. See
 welch_holm_vs_control() in _common.py for the full rationale and the numbers
 both tests give.
 
-Reads data/FigS6/FigS6e.csv. Run:
-    python plot_FigS6e.py
-Writes figures/FigS6e.svg and .png.
+Reads data/ExtDataFig6/ExtDataFig6e.csv. Run:
+    python plot_ExtDataFig6e.py
+Writes figures/ExtDataFig6e.svg and .png.
 """
 import pandas as pd
 
@@ -25,7 +25,7 @@ VALUE_COL = "viability_percent"
 
 
 def main():
-    df = pd.read_csv(DATA_DIR / "FigS6" / "FigS6e.csv")
+    df = pd.read_csv(DATA_DIR / "ExtDataFig6" / "ExtDataFig6e.csv")
     p_adj = welch_holm_vs_control(df, VALUE_COL)
     for g, p in p_adj.items():
         print(f"{g}: Holm-adjusted p = {p:.4g}")
@@ -33,7 +33,7 @@ def main():
         df, VALUE_COL,
         ylabel="Embryonic viability (%)",
         ymax=100, tick_step=20,
-        out_stub="FigS6e",
+        out_stub="ExtDataFig6e",
         p_adj=p_adj,
         ax_w=1.215, ax_h=1.11,
     )
