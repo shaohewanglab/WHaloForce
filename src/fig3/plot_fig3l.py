@@ -9,7 +9,10 @@ whiskers (1.5x interquartile range). Statistics are two-sided Mann-Whitney
 U for the two displayed comparisons, before vs stretched and stretched vs
 stretched + LatA, with Holm-Bonferroni correction applied separately within
 each construct across those two comparisons. The plot shows the Holm-adjusted
-p values; raw and adjusted values are printed to the console. The undisplayed
+p values (two significant digits, one line); raw and adjusted values are
+printed to the console. The number of FOVs per condition is shown in an n row
+under each axis, and conditions are labelled Pre / Stretched / Stretched + LatA
+as in the assembled figure. The undisplayed
 before vs LatA comparison is not part of any Holm family; its raw p is printed
 for reference only.
 
@@ -30,7 +33,8 @@ from scipy.stats import mannwhitneyu
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "common"))
-from style import apply_style, save, DATA_DIR, p_text, TAU, DELTA  # noqa: E402
+from matplotlib.transforms import blended_transform_factory  # noqa: E402
+from style import apply_style, save, DATA_DIR, sup_text, P_LABEL_PAD, TAU  # noqa: E402
 
 apply_style()
 
@@ -39,7 +43,8 @@ DATA_CSV = DATA_DIR / "Fig3" / "Fig3l.csv"
 VALUE_COL = "dtau_anisotropy_ns"
 CONSTRUCT_ORDER = ["aCat-WF", "aCat-cpH", "aCat-C-WF"]
 CONDITION_ORDER = ["before", "stretched", "latA"]
-CONDITION_LABELS = {"before": "Before", "stretched": "Stretched", "latA": "LatA"}
+# labels as in the assembled figure (and Fig. 3i)
+CONDITION_LABELS = {"before": "Pre", "stretched": "Stretched", "latA": "Stretched\n+ LatA"}
 ALL_PAIRS = [("before", "stretched"), ("stretched", "latA"), ("before", "latA")]
 PLOTTED_PAIRS = [("before", "stretched"), ("stretched", "latA")]
 COLORS = {"aCat-WF": "#2c7fb8", "aCat-cpH": "#e6842e", "aCat-C-WF": "#d62728"}
@@ -54,6 +59,18 @@ def holm(pvals):
         run = max(run, (p.size - i) * p[idx])
         adj[idx] = min(run, 1.0)
     return adj
+
+
+def p_label(ax, x, y, p, fontsize=7):
+    """One-line p label as in the assembled figure: two significant digits,
+    "p=0.078" / "p=1", or "p=7.3x10^-7" (editable superscript) below 0.01."""
+    if p >= 0.01:
+        return ax.annotate(f"p={p:.2g}", (x, y), xytext=(0.0, P_LABEL_PAD),
+                           textcoords="offset points", ha="center", va="bottom",
+                           fontsize=fontsize, annotation_clip=False)
+    exp = int(np.floor(np.log10(p)))
+    return sup_text(ax, x, y, f"p={p / 10 ** exp:.1f}×10", f"{exp}", fontsize=fontsize,
+                    ha="center", va="bottom", pad_pt=P_LABEL_PAD)
 
 
 def pctl_box(ax, x, vals, color, width=0.25):
@@ -80,11 +97,12 @@ def main():
 
     # One shared y-axis across the three constructs, so the effect sizes are
     # directly comparable; bracket levels are therefore global, not per panel.
-    fig, axes = plt.subplots(1, len(CONSTRUCT_ORDER), figsize=(3.58, 1.5), sharey=True)
+    fig, axes = plt.subplots(1, len(CONSTRUCT_ORDER), figsize=(3.58, 1.65), sharey=True)
     allv = df[VALUE_COL].to_numpy()
     g_min, g_max = float(np.nanmin(allv)), float(np.nanmax(allv))
     g_span = g_max - g_min
-    LEVELS = [g_max + g_span * 0.10, g_max + g_span * 0.34]
+    # the upper bar clears the lower one's one-line p label (incl. exponent)
+    LEVELS = [g_max + g_span * 0.10, g_max + g_span * 0.42]
     rng = np.random.default_rng(42)
 
     for ax, construct in zip(axes, CONSTRUCT_ORDER):
@@ -118,12 +136,22 @@ def main():
             ax.plot([x0, x0, x1, x1],
                     [y_brk - g_span * 0.02, y_brk, y_brk, y_brk - g_span * 0.02],
                     color="#333333", lw=0.6)
-            # stacked ("p =" over the value) so the two labels in a panel do not
-            # collide at this width
-            p_text(ax, (x0 + x1) / 2, y_brk, adj_p[(a, b)], fontsize=7, stacked=True)
+            p_label(ax, (x0 + x1) / 2, y_brk, adj_p[(a, b)])
 
         ax.set_xticks(range(len(CONDITION_ORDER)))
-        ax.set_xticklabels([CONDITION_LABELS[c] for c in CONDITION_ORDER], rotation=30, ha="right")
+        ax.set_xticklabels([CONDITION_LABELS[c] for c in CONDITION_ORDER], rotation=30,
+                           ha="right", va="top", rotation_mode="anchor", linespacing=1.0)
+        ax.tick_params(axis="x", pad=8.0)
+        # n row under the axis ("n:" left of the first group), as in Fig. 2/6 panels
+        trans = blended_transform_factory(ax.transData, ax.transAxes)
+        for i, cond in enumerate(CONDITION_ORDER):
+            ax.annotate(f"{len(groups[cond])}", xy=(i, 0.0), xycoords=trans,
+                        xytext=(0.0, -6.0), textcoords="offset points",
+                        ha="center", va="center", fontsize=7, color="0.35",
+                        annotation_clip=False)
+        ax.annotate("n:", xy=(0, 0.0), xycoords=trans, xytext=(-9.0, -6.0),
+                    textcoords="offset points", ha="right", va="center", fontsize=7,
+                    color="0.35", annotation_clip=False)
         ax.set_title(construct, pad=2.0)
         if construct == CONSTRUCT_ORDER[0]:
             ax.set_ylabel(f"{TAU}(T+B) \u2212 {TAU}(L+R) (ps)")
@@ -132,11 +160,13 @@ def main():
     # two tick labels only, as in the published panel
     axes[0].set_yticks([0, 100])
     # room above the upper bracket so its label clears the panel title
-    axes[0].set_ylim(g_min - g_span * 0.08, LEVELS[-1] + g_span * 0.62)
+    axes[0].set_ylim(g_min - g_span * 0.08, LEVELS[-1] + g_span * 0.30)
 
     for a in axes:
-        a.tick_params(axis='both', labelsize=7, pad=1.0)
-    fig.subplots_adjust(left=0.155, right=0.995, bottom=0.30, top=0.865, wspace=0.18)
+        a.tick_params(axis="both", labelsize=7)
+        a.tick_params(axis="y", pad=1.0)     # x pad (set above) leaves room for the n row
+    # bottom margin holds the n row and the two-line tilted condition labels
+    fig.subplots_adjust(left=0.155, right=0.995, bottom=0.36, top=0.88, wspace=0.18)
     save(fig, "Fig3l")
 
 
